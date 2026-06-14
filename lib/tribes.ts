@@ -34,13 +34,13 @@ type Row = { userId: string; shared: number; agree: number };
 export async function computeAlignment(userId: string): Promise<Alignment | null> {
   // Pairwise agreement vs everyone who shares polls with this user.
   const rows = (await db.$queryRaw`
-    SELECT v2.userId AS userId,
+    SELECT v2."userId" AS "userId",
            COUNT(*) AS shared,
-           SUM(CASE WHEN v1.optionId = v2.optionId THEN 1 ELSE 0 END) AS agree
-    FROM Vote v1
-    JOIN Vote v2 ON v2.pollId = v1.pollId AND v2.userId <> v1.userId
-    WHERE v1.userId = ${userId}
-    GROUP BY v2.userId
+           SUM(CASE WHEN v1."optionId" = v2."optionId" THEN 1 ELSE 0 END) AS agree
+    FROM "Vote" v1
+    JOIN "Vote" v2 ON v2."pollId" = v1."pollId" AND v2."userId" <> v1."userId"
+    WHERE v1."userId" = ${userId}
+    GROUP BY v2."userId"
     HAVING COUNT(*) >= 3
     ORDER BY shared DESC
     LIMIT 200
@@ -128,13 +128,13 @@ export async function computeAlignment(userId: string): Promise<Alignment | null
  */
 export async function computeNemesisId(userId: string): Promise<string | null> {
   const rows = (await db.$queryRaw`
-    SELECT v2.userId AS userId,
+    SELECT v2."userId" AS "userId",
            COUNT(*) AS shared,
-           SUM(CASE WHEN v1.optionId = v2.optionId THEN 1 ELSE 0 END) AS agree
-    FROM Vote v1
-    JOIN Vote v2 ON v2.pollId = v1.pollId AND v2.userId <> v1.userId
-    WHERE v1.userId = ${userId}
-    GROUP BY v2.userId
+           SUM(CASE WHEN v1."optionId" = v2."optionId" THEN 1 ELSE 0 END) AS agree
+    FROM "Vote" v1
+    JOIN "Vote" v2 ON v2."pollId" = v1."pollId" AND v2."userId" <> v1."userId"
+    WHERE v1."userId" = ${userId}
+    GROUP BY v2."userId"
     HAVING COUNT(*) >= 5
   `) as Row[];
   if (rows.length === 0) return null;

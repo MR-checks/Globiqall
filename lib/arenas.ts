@@ -45,14 +45,14 @@ type LbRow = {
 /** Top predictors within an arena, ranked by reputation earned on its polls. */
 export async function arenaLeaderboard(arenaId: string, limit = 15): Promise<ArenaLeader[]> {
   const rows = (await db.$queryRaw`
-    SELECT v.userId AS userId,
-           SUM(v.repAwarded) AS rep,
+    SELECT v."userId" AS "userId",
+           SUM(v."repAwarded") AS rep,
            COUNT(*) AS calls,
-           SUM(CASE WHEN v.correct = 1 THEN 1 ELSE 0 END) AS correct
-    FROM Vote v
-    JOIN Poll p ON p.id = v.pollId
-    WHERE p.arenaId = ${arenaId} AND v.repAwarded IS NOT NULL
-    GROUP BY v.userId
+           SUM(CASE WHEN v."correct" THEN 1 ELSE 0 END) AS correct
+    FROM "Vote" v
+    JOIN "Poll" p ON p."id" = v."pollId"
+    WHERE p."arenaId" = ${arenaId} AND v."repAwarded" IS NOT NULL
+    GROUP BY v."userId"
     ORDER BY rep DESC
     LIMIT ${limit}
   `) as LbRow[];

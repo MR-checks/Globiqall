@@ -1,0 +1,295 @@
+// Globiqall — schema for global polls, votes, users, categories.
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+// ---- Auth.js (NextAuth) tables ----
+
+model User {
+  id            String    @id @default(cuid())
+  name          String?
+  email         String?   @unique
+  emailVerified DateTime?
+  image         String?
+  username      String?   @unique
+  bio           String?
+  country       String? // ISO 2-letter
+  createdAt     DateTime  @default(now())
+
+  // Reputation / streaks
+  reputation    Int       @default(0)
+  streakDays    Int       @default(0)
+  lastVoteOn    DateTime?
+
+  // Prediction track record (separate from daily vote streak)
+  predictionsResolved Int @default(0) // # of your predictions that have been resolved
+  predictionsCorrect  Int @default(0) // # of those you got right
+  predictionStreak    Int @default(0) // current consecutive-correct streak
+  bestPredictionStreak Int @default(0)
+
+  // Daily Call participation streak (consecutive days you made the daily call)
+  dailyStreak     Int       @default(0)
+  bestDailyStreak Int       @default(0)
+  lastDailyOn     DateTime? // UTC midnight of the last daily you played
+
+  // Weekly league: points earned in the current ISO week (lazily reset on week roll)
+  weeklyPoints    Int       @default(0)
+  weekKey         String? // e.g. "2026-W24"; if != current week, weeklyPoints is stale (=0 this week)
+
+  // Rivalry: the user you most consistently disagree with (refreshed periodically)
+  nemesisId       String?
+
+  // Streak protection (Duolingo-style freezes)
+  streakFreezes   Int       @default(1)
+
+  // Notification preferences
+  emailNotifications Boolean @default(true)
+
+  // Optional moderator/admin flag for resolving others' predictions + disputes
+  isAdmin       Boolean   @default(false)
+
+  accounts      Account[]
+  sessions      Session[]
+  polls         Poll[]
+  votes         Vote[]
+  comments      Comment[]
+  notifications Notification[] @relation("UserNotifications")
+}
+
+// ---- Notifications ----
+model Notification {
+  id        String   @id @default(cuid())
+  userId    String
+  type      String // PREDICTION_RESOLVED | NEMESIS | PREDICTION_DUE | STREAK_FREEZE | GENERIC
+  title     String
+  body      String?
+  href      String?
+  read      Boolean  @default(false)
+  pollId    String?
+  actorId   String?
+  createdAt DateTime @default(now())
+
+  user User @relation("UserNotifications", fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, read, createdAt])
+}
+
+model Account {
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String?
+  access_token      String?
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String?
+  session_state     String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
+}
+
+// ---- Globiqall domain ----
+
+model Category {
+  id          String  @id @default(cuid())
+  slug        String  @unique
+  name        String
+  emoji       String
+  color       String // tailwind-friendly hue label e.g. "amber"
+  description String?
+  order       Int     @default(0)
+
+  polls Poll[]
+}
+
+model Poll {
+  id           String    @id @default(cuid())
+  slug         String    @unique
+  title        String
+  description  String?
+  // BINARY (versus), MULTI (3+ options)
+  type         String    @default("MULTI")
+  // DEBATE (subjective, never resolves) | PREDICTION (resolves vs reality)
+  mode         String    @default("DEBATE")
+  // PUBLIC | UNLISTED | PRIVATE (private requires shareCode)
+  visibility   String    @default("PUBLIC")
+  shareCode    String?   @unique
+  allowAnon    Boolean   @default(false)
+  closesAt     DateTime?
+
+  // --- Prediction mode fields ---
+  // After lockAt, no new picks and no switching — the call is final.
+  lockAt           DateTime?
+  // When the outcome is expected to be known (display + sort only).
+  resolvesAt       DateTime?
+  // Set when an author/admin resolves the prediction.
+  resolvedAt       DateTime?
+  resolvedOptionId String?   // the option that actually happened
+  resolutionSource String?   // public URL/citation backing the resolution
+  resolutionNote   String?   // optional human note
+  resolvedById     String?   // who resolved it (audit)
+  resolveNudgedAt  DateTime? // when we last nudged the author that it's due
+
+  featured     Boolean   @default(false)
+  totalVotes   Int       @default(0)
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+
+  // The Daily Call: the one global prediction for a given UTC day.
+  dailyOn      DateTime? @unique
+
+  categoryId String
+  authorId   String
+  arenaId    String?
+  category   Category   @relation(fields: [categoryId], references: [id])
+  author     User       @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  arena      Arena?     @relation(fields: [arenaId], references: [id], onDelete: SetNull)
+  options    PollOption[]
+  votes      Vote[]
+  comments   Comment[]
+
+  @@index([categoryId])
+  @@index([authorId])
+  @@index([createdAt])
+  @@index([featured])
+  @@index([totalVotes])
+  @@index([mode, lockAt])
+  @@index([mode, resolvedAt])
+  @@index([arenaId])
+}
+
+// ---- Arenas: time-boxed event hubs (World Cup, elections, awards) ----
+// A themed collection of predictions around one real-world event. Can be
+// spawned from a Drop the trend engine detected.
+model Arena {
+  id          String    @id @default(cuid())
+  slug        String    @unique
+  title       String
+  description String?
+  emoji       String?
+  color       String    @default("indigo")
+  startsAt    DateTime?
+  endsAt      DateTime?
+  status      String    @default("LIVE") // LIVE | UPCOMING | CLOSED
+  featured    Boolean   @default(false)
+  sourceDropId String?  // the Drop this arena was spawned from, if any
+  createdAt   DateTime  @default(now())
+
+  polls Poll[]
+
+  @@index([status])
+  @@index([featured])
+}
+
+model PollOption {
+  id        String @id @default(cuid())
+  pollId    String
+  label     String
+  emoji     String?
+  color     String? // optional accent
+  position  Int
+  voteCount Int    @default(0)
+
+  poll  Poll   @relation(fields: [pollId], references: [id], onDelete: Cascade)
+  votes Vote[]
+
+  @@index([pollId])
+}
+
+model Vote {
+  id          String   @id @default(cuid())
+  pollId      String
+  optionId    String
+  userId      String
+  countryCode String?
+  createdAt   DateTime @default(now())
+
+  // --- Prediction mode ---
+  // Confidence/stake in reputation terms: 1=low, 2=medium, 3=high.
+  // Reputation-only by design (no money). Scales the reward/penalty at resolution.
+  conviction  Int      @default(1)
+  // Set at resolution: did this pick match what actually happened?
+  correct     Boolean?
+  // Reputation delta this pick earned (or lost) when the poll resolved.
+  repAwarded  Int?
+
+  poll   Poll       @relation(fields: [pollId], references: [id], onDelete: Cascade)
+  option PollOption @relation(fields: [optionId], references: [id], onDelete: Cascade)
+  user   User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([pollId, userId])
+  @@index([optionId])
+  @@index([createdAt])
+  @@index([countryCode])
+  @@index([userId, correct])
+}
+
+model Comment {
+  id        String   @id @default(cuid())
+  pollId    String
+  authorId  String
+  parentId  String?
+  body      String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  // Soft delete preserves thread structure if a comment has replies
+  deletedAt DateTime?
+
+  poll    Poll      @relation(fields: [pollId], references: [id], onDelete: Cascade)
+  author  User      @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  parent  Comment?  @relation("Replies", fields: [parentId], references: [id], onDelete: Cascade)
+  replies Comment[] @relation("Replies")
+
+  @@index([pollId, createdAt])
+  @@index([authorId])
+  @@index([parentId])
+}
+
+// ---- Drops: world-coming-up signal ----
+// Sourced from free public feeds (Reddit, HN, Product Hunt, Google News).
+// Filtered down to "anticipation" items so users can quickly start polls.
+model Drop {
+  id          String    @id @default(cuid())
+  fingerprint String    @unique          // simhash-ish of normalized title (dedupe)
+  title       String
+  source      String                     // "reddit/r/gadgets" | "hn" | "producthunt" | "gnews"
+  sourceUrl   String
+  category    String?                    // guessed slug; matches Category.slug where possible
+  score       Int                        // anticipation score; higher = stronger drop signal
+  expectedAt  DateTime?                  // parsed date if we extracted one
+  pollId      String?                    // if a user kicked off a poll from this drop
+  clickCount  Int       @default(0)
+  fetchedAt   DateTime  @default(now())
+  expiresAt   DateTime                   // hard expiry — UI hides past this
+
+  @@index([expiresAt, score])
+  @@index([category])
+}

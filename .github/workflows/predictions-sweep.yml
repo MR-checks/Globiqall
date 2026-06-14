@@ -1,0 +1,19 @@
+name: Predictions sweep
+
+on:
+  schedule:
+    # Every hour — nudge due predictions + refresh rivalry data.
+    - cron: "5 * * * *"
+  workflow_dispatch: {}
+
+jobs:
+  sweep:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Hit sweep endpoint
+        run: |
+          curl --fail --silent --show-error --max-time 90 \
+            -X POST \
+            -H "Authorization: Bearer ${{ secrets.PREDICTIONS_SWEEP_SECRET }}" \
+            "${{ vars.APP_URL }}/api/predictions/sweep"

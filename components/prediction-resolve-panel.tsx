@@ -18,9 +18,11 @@ type Option = { id: string; label: string; emoji: string | null };
 export function PredictionResolvePanel({
   pollId,
   options,
+  earlyWarning = false,
 }: {
   pollId: string;
   options: Option[];
+  earlyWarning?: boolean;
 }) {
   const [open, setOpen] = React.useState(false);
   const [winner, setWinner] = React.useState<string | null>(null);
@@ -61,6 +63,12 @@ export function PredictionResolvePanel({
         instantly — correct predictors gain, confident misses lose a little.
         This can't be undone, so cite a source.
       </p>
+
+      {earlyWarning && (
+        <p className="mt-3 rounded-md border border-warning/30 bg-warning/10 px-3 py-2 text-[12px] text-warning font-mono uppercase tracking-[0.08em]">
+          Admin · this prediction hasn&apos;t locked yet — resolving now finalizes it early.
+        </p>
+      )}
 
       {!open ? (
         <Button variant="outline" className="mt-4" onClick={() => setOpen(true)}>

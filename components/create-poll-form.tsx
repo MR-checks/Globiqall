@@ -35,11 +35,13 @@ export function CreatePollForm({
   categories,
   defaultType,
   defaultVisibility,
+  defaultMode = "DEBATE",
   prefill,
 }: {
   categories: Category[];
   defaultType: "BINARY" | "MULTI";
   defaultVisibility: "PUBLIC" | "UNLISTED" | "PRIVATE";
+  defaultMode?: "DEBATE" | "PREDICTION";
   prefill?: {
     title?: string;
     categoryId?: string;
@@ -47,14 +49,13 @@ export function CreatePollForm({
   };
 }) {
   const [title, setTitle] = React.useState(prefill?.title ?? "");
-  const [mode, setMode] = React.useState<"DEBATE" | "PREDICTION">("DEBATE");
+  const [mode, setMode] = React.useState<"DEBATE" | "PREDICTION">(defaultMode);
   const [type, setType] = React.useState<"BINARY" | "MULTI">(defaultType);
   const [visibility, setVisibility] = React.useState<"PUBLIC" | "UNLISTED" | "PRIVATE">(
     defaultVisibility,
   );
-  const [categoryId, setCategoryId] = React.useState(
-    prefill?.categoryId ?? categories[0]?.id ?? "",
-  );
+  // No default category — the author must choose one (validated on submit).
+  const [categoryId, setCategoryId] = React.useState(prefill?.categoryId ?? "");
   const [options, setOptions] = React.useState<Option[]>(
     defaultType === "BINARY"
       ? [blank(), blank()]
@@ -108,10 +109,25 @@ export function CreatePollForm({
   }, [type, options]);
 
   async function handleSubmit(formData: FormData) {
+    if (!categoryId) {
+      toast.error("Pick a category");
+      return;
+    }
     formData.set("type", type);
     formData.set("mode", mode);
     formData.set("visibility", visibility);
     formData.set("categoryId", categoryId);
+    // datetime-local values carry no time zone — the browser reads them as the
+    // user's local time. Convert to a UTC ISO instant so the server stores the
+    // correct moment regardless of its own time zone, and every viewer sees the
+    // right time relative to their own.
+    for (const key of ["closesAt", "lockAt", "resolvesAt"]) {
+      const v = formData.get(key);
+      if (typeof v === "string" && v) {
+        const d = new Date(v);
+        if (!Number.isNaN(d.getTime())) formData.set(key, d.toISOString());
+      }
+    }
     options.forEach((o, i) => {
       formData.set(`option_${i}`, o.label);
       if (o.emoji) formData.set(`emoji_${i}`, o.emoji);
@@ -179,7 +195,7 @@ export function CreatePollForm({
       </Field>
 
       <div className="grid sm:grid-cols-2 gap-5">
-        <Field label="Category">
+        <Field label="Category" hint="required">
           <Select value={categoryId} onValueChange={setCategoryId}>
             <SelectTrigger className="bg-card">
               <SelectValue placeholder="Pick a category" />

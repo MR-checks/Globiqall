@@ -6,6 +6,7 @@ import { CreatePollForm } from "@/components/create-poll-form";
 type SearchParams = Promise<{
   type?: string;
   visibility?: string;
+  mode?: string;
   title?: string;
   category?: string;
   dropId?: string;
@@ -33,6 +34,8 @@ export default async function NewPollPage({
     params.visibility === "PUBLIC"
       ? params.visibility
       : "PUBLIC";
+  const defaultMode =
+    params.mode?.toUpperCase() === "PREDICTION" ? "PREDICTION" : "DEBATE";
 
   // Match prefilled category slug → real Category.id (graceful if unknown slug)
   const prefillCategoryId =
@@ -89,6 +92,7 @@ export default async function NewPollPage({
         }))}
         defaultType={defaultType}
         defaultVisibility={defaultVisibility}
+        defaultMode={defaultMode}
         prefill={{
           title: params.title?.slice(0, 140) ?? "",
           categoryId: prefillCategoryId || undefined,

@@ -57,8 +57,21 @@ export default async function PollDetailPage({ params, searchParams }: PageProps
   const predictionState = computePredictionState(poll);
   const isPrediction = poll.mode === "PREDICTION";
   const isAuthor = poll.authorId === session?.user?.id;
-  const canResolve =
-    isPrediction && predictionState === "LOCKED" && isAuthor && session?.user?.id;
+  const me = session?.user?.id
+    ? await db.user.findUnique({
+        where: { id: session.user.id },
+        select: { isAdmin: true },
+      })
+    : null;
+  const isAdmin = Boolean(me?.isAdmin);
+  // Authors resolve once their prediction has locked; admins can resolve any
+  // unresolved prediction (including an early override before lock).
+  const canResolve = Boolean(
+    isPrediction &&
+      predictionState !== "RESOLVED" &&
+      session?.user?.id &&
+      (isAdmin || (isAuthor && predictionState === "LOCKED")),
+  );
   const resolvedWinner =
     poll.resolvedOptionId
       ? poll.options.find((o) => o.id === poll.resolvedOptionId)
@@ -246,6 +259,7 @@ export default async function PollDetailPage({ params, searchParams }: PageProps
       {canResolve && (
         <PredictionResolvePanel
           pollId={poll.id}
+          earlyWarning={predictionState === "OPEN"}
           options={poll.options.map((o) => ({
             id: o.id,
             label: o.label,

@@ -51,7 +51,7 @@ export default async function PredictionsPage() {
           </p>
         </div>
         <Button asChild variant="accent">
-          <Link href="/new">
+          <Link href="/new?mode=prediction">
             <Plus /> Open a prediction
           </Link>
         </Button>

@@ -7,25 +7,25 @@ export const runtime = "nodejs";
 export const maxDuration = 60;
 
 /**
- * Drop refresh endpoint. Hit by Vercel Cron (or curl in dev).
+ * Drop refresh endpoint. Hit by the GitHub Actions cron (or curl in dev).
  *
  * Auth model:
- *   - In production: requires `Authorization: Bearer <secret>` OR `?secret=`,
- *     where <secret> is DROPS_REFRESH_SECRET or CRON_SECRET (Vercel Cron sends
- *     `Authorization: Bearer $CRON_SECRET` automatically when that env is set).
+ *   - In production: requires `Authorization: Bearer $DROPS_REFRESH_SECRET`
+ *     OR `?secret=$DROPS_REFRESH_SECRET`.
  *   - In dev (NODE_ENV !== "production"): if no secret env var is set,
  *     unauthenticated calls are allowed for convenience.
  */
 function authorize(req: Request): boolean {
-  const secrets = [
-    process.env.DROPS_REFRESH_SECRET,
-    process.env.CRON_SECRET,
-  ].filter(Boolean) as string[];
-  if (secrets.length === 0) return process.env.NODE_ENV !== "production";
+  const secret = process.env.DROPS_REFRESH_SECRET;
+  if (!secret) return process.env.NODE_ENV !== "production";
 
   const auth = req.headers.get("authorization");
-  const qp = new URL(req.url).searchParams.get("secret");
-  return secrets.some((s) => auth === `Bearer ${s}` || qp === s);
+  if (auth === `Bearer ${secret}`) return true;
+
+  const url = new URL(req.url);
+  if (url.searchParams.get("secret") === secret) return true;
+
+  return false;
 }
 
 async function handler(req: Request) {

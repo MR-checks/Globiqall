@@ -8,25 +8,20 @@ export const runtime = "nodejs";
 export const maxDuration = 60;
 
 /**
- * Periodic sweep (hit by Vercel Cron):
+ * Periodic sweep (hit by GitHub Actions cron):
  *  1. Nudge authors whose predictions are past `resolvesAt` and still unresolved
  *     ("your prediction is due to resolve").
  *  2. Refresh stored nemesis for a bounded batch of active users so the rivalry
  *     notification loop has data to work with.
  *
- * Auth: Bearer <PREDICTIONS_SWEEP_SECRET | CRON_SECRET> (or ?secret=). Vercel Cron
- * sends `Authorization: Bearer $CRON_SECRET` automatically. Dev allows unauthenticated.
+ * Auth: Bearer PREDICTIONS_SWEEP_SECRET (or ?secret=). Dev allows unauthenticated.
  */
 function authorize(req: Request): boolean {
-  const secrets = [
-    process.env.PREDICTIONS_SWEEP_SECRET,
-    process.env.CRON_SECRET,
-  ].filter(Boolean) as string[];
-  if (secrets.length === 0) return process.env.NODE_ENV !== "production";
-
-  const auth = req.headers.get("authorization");
-  const qp = new URL(req.url).searchParams.get("secret");
-  return secrets.some((s) => auth === `Bearer ${s}` || qp === s);
+  const secret = process.env.PREDICTIONS_SWEEP_SECRET;
+  if (!secret) return process.env.NODE_ENV !== "production";
+  if (req.headers.get("authorization") === `Bearer ${secret}`) return true;
+  const url = new URL(req.url);
+  return url.searchParams.get("secret") === secret;
 }
 
 async function handler(req: Request) {

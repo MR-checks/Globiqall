@@ -185,7 +185,7 @@ export async function GET(req: Request) {
         <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
           <div style={{ display: "flex", color: TEXT, fontSize: "26px", fontWeight: 600 }}>{handle}</div>
           <div style={{ display: "flex", color: MUTED, fontSize: "20px" }}>
-            {dateStr ? `locked ${dateStr} · ` : ""}globiqall.app
+            {dateStr ? `locked ${dateStr} · ` : ""}globiqall.com
           </div>
         </div>
       </div>

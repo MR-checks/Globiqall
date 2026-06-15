@@ -36,10 +36,10 @@ async function main() {
 
   // System author for seed polls
   const system = await db.user.upsert({
-    where: { email: "system@globiqall.app" },
+    where: { email: "system@globiqall.com" },
     update: {},
     create: {
-      email: "system@globiqall.app",
+      email: "system@globiqall.com",
       name: "Globiqall",
       username: "globiqall",
       image: null,

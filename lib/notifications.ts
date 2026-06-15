@@ -45,7 +45,7 @@ export async function notify(input: NotifyInput): Promise<void> {
         select: { email: true, emailNotifications: true },
       });
       if (user?.email && user.emailNotifications) {
-        const base = process.env.NEXT_PUBLIC_APP_URL ?? "https://globiqall.app";
+        const base = process.env.NEXT_PUBLIC_APP_URL ?? "https://globiqall.com";
         const link = input.href ? `${base}${input.href}` : base;
         await sendEmail({
           to: user.email,

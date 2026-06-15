@@ -1,93 +1,48 @@
-# Globiqall 🌍
+# GlobiQall
 
-**The pulse of the planet.** Globiqall is a global polling platform where people create and vote on the questions that matter — politics, sports, tech, lifestyle, and everything in between. Public for the world, or private with a share code.
+**The world's free arena for taking sides and calling outcomes** — where the only currency is a public track record of being right, never money.
 
-Built as a modern, premium, real-time web app.
+🔗 **Live:** [globiqall.vercel.app](https://globiqall.vercel.app)
 
 ---
+
+GlobiQall turns the things humans can't resist — predicting, debating, and being proven right — into a free, global, reputation-only game. No gambling, no KYC, no real money. Two engines feed one reputation spine:
+
+- **Debate** — subjective polls that never resolve. Pick a side, back it with conviction, watch the world split.
+- **Prediction** — objective calls that lock at a deadline and resolve against reality. Get it right early, against the crowd, and your reputation compounds.
+
+One number. One trophy case. A track record that's yours.
+
+## What's inside
+
+- **Prediction engine** — conviction-weighted calls, deadline locks, author/admin resolution with a public source, crowd-difficulty scoring.
+- **The Daily Call** — one global prediction a day, Wordle-style streaks + streak freezes.
+- **Arenas** — time-boxed event hubs (elections, finals, awards) with their own leaderboards.
+- **Leagues** — weekly points, Bronze → Diamond tiers.
+- **Trophies & Tribes** — earned hardware for correct calls; emergent identity from who you vote like (and against).
+- **The Receipt** — a verifiable "I called it" share card.
+- **Drops** — a live feed of what the world's about to argue about, pulled from open web signals.
+- **Realtime** — live vote bars and world splits over SSE, plus a per-poll country heatmap.
 
 ## Stack
 
-- **Next.js 15** (App Router, React 19, Server Components)
-- **TypeScript** end-to-end
-- **Tailwind CSS** + custom shadcn-style design system on **Radix primitives**
-- **Auth.js v5** (NextAuth) — Email magic link + Google + GitHub + Apple
-- **Prisma + SQLite** locally (one-line swap to Postgres for prod)
-- **Server-Sent Events** for live vote totals (no extra infra)
-- **Framer Motion** for the premium feel
-- **Sonner** for toasts, **Lucide** for icons
+- **Next.js 15** (App Router, React 19, Server Components & Actions) · TypeScript
+- **Prisma + Postgres** (Supabase in production)
+- **Auth.js v5** — email magic links + GitHub / Google / Apple
+- **Tailwind CSS** + shadcn-style primitives on Radix · the "Pulse" data-terminal design language
+- **Server-Sent Events** for realtime · **next/og** for share cards
+- **Sentry** + **PostHog** (both no-op without keys)
 
-## Run it (60 seconds, zero config)
+## Run it locally
 
 ```bash
 npm install --legacy-peer-deps
-npx prisma db push
-npm run db:seed
+npx prisma db push   # sync schema to your database
 npm run dev
 ```
 
-Open <http://localhost:3000>. You're up. No external services required.
-
-> **Note:** `--legacy-peer-deps` is needed during the React 19 RC peer-range transition. It's the official Next.js team recommendation.
-
-### Sign in (local dev)
-
-Three options light up automatically:
-
-1. **Dev quick-login** — type any name + email, click "Sign in instantly." Disabled in production.
-2. **Email magic link** — submit any email; the magic link prints in the terminal.
-3. **OAuth (Google/GitHub/Apple)** — set the env vars below and the buttons appear.
-
-### Environment variables
-
-Copy `.env.example` → `.env` and fill what you need. Everything is optional except `AUTH_SECRET` (already set for dev) and `DATABASE_URL` (SQLite by default).
-
-```env
-AUTH_GOOGLE_ID=""        # enables Google button
-AUTH_GOOGLE_SECRET=""
-AUTH_GITHUB_ID=""        # enables GitHub button
-AUTH_GITHUB_SECRET=""
-AUTH_APPLE_ID=""         # enables Apple button
-AUTH_APPLE_SECRET=""
-EMAIL_SERVER_HOST=""     # SMTP for real magic links (Postmark, Resend SMTP, etc.)
-```
-
-## What's in v1
-
-- 🌐 Global trending feed with category filters
-- 🆚 Versus polls (binary) + multi-option polls (3–6 choices)
-- 🔒 Public, Unlisted, or Private (share-code gated) visibility
-- 📡 **Live realtime** vote updates via SSE — counts animate as the world votes
-- 🌗 Dark-first design with light mode toggle, premium typography (Space Grotesk + Inter)
-- 🏆 Leaderboard of most-voted polls
-- 🔍 Search across polls
-- 🌍 Category browsing
-- 🧑‍💻 Multi-provider auth + dev quick-login
-
-## Architecture notes
-
-- **Realtime:** in-memory pub/sub publishes vote updates; SSE endpoint at `/api/polls/[id]/stream` streams them to clients. Single-instance ready. For multi-instance prod, swap `lib/pubsub.ts` for Redis pub/sub — interface stays the same.
-- **Auth:** providers conditionally registered based on env vars in `auth.ts`. JWT session strategy + Prisma adapter for verification tokens.
-- **Schema:** `prisma/schema.prisma` — User, Account, Session, Poll, PollOption, Vote, Category. Vote counters denormalized on `PollOption.voteCount` + `Poll.totalVotes` for fast reads, kept in sync via transactional `castVote`.
-- **Optimistic UI:** vote button updates instantly, rolls back on error.
-
-## Going to production
-
-1. `DATABASE_URL` → Postgres connection string (change `provider = "postgresql"` in `prisma/schema.prisma`).
-2. Generate `AUTH_SECRET=$(openssl rand -base64 33)`.
-3. Set `NEXT_PUBLIC_APP_URL` to your real domain.
-4. Configure OAuth credentials and SMTP.
-5. `npm run build && npm start` (or deploy to Vercel — works out of the box).
-
-## Scripts
-
-- `npm run dev` — Next.js dev server
-- `npm run build` — production build (runs `prisma generate` first)
-- `npm run db:push` — push schema to DB
-- `npm run db:seed` — seed categories + sample polls
-- `npm run db:reset` — wipe + reseed
-- `npm run db:studio` — Prisma Studio (DB GUI at <http://localhost:5555>)
+Needs a Postgres `DATABASE_URL` in `.env` (see [`.env.example`](.env.example)) — point it at a local Postgres or a Supabase instance. Auth, analytics, and error tracking are all optional and light up automatically when their env vars are set; without SMTP, magic links print to the terminal.
 
 ---
 
-Vote anything. Settle everything. 🌍
+_Reputation-only by design. No real-money wagering — that boundary is enforced in the code, not just the docs._

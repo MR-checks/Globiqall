@@ -132,7 +132,7 @@ Auto-memory at `~/.claude/.../memory/` holds: strategic pivot, deployment coordi
 **Launch quality (the "test & harden after deployment" pass the user planned):**
 4. Seed real starter content in prod: a live Daily Call, 1–2 Arenas, a handful of genuine open predictions. Make an admin user (`User.isAdmin = true`) so resolution works.
 5. Harden under real traffic: confirm auth-endpoint rate limits, watch Sentry, consider swapping in-memory `rate-limit.ts` + `pubsub.ts` for Upstash Redis once multi-instance (interfaces are drop-in).
-6. Custom domain (globiqall.app) when ready — add in Vercel, update `NEXT_PUBLIC_APP_URL`.
+6. Custom domain (globiqall.com) when ready — add in Vercel, update `NEXT_PUBLIC_APP_URL`.
 
 **Magic-move backlog (planned, not yet built):**
 7. Automated oracle resolution per category (sports scores / crypto prices / election APIs) so predictions self-resolve where structured data exists.

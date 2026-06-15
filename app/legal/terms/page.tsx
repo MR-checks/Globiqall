@@ -132,12 +132,12 @@ export default function TermsPage() {
       <Section title="Contact">
         <P>
           Questions:{" "}
-          <a className="underline decoration-accent underline-offset-4" href="mailto:hello@globiqall.app">
-            hello@globiqall.app
+          <a className="underline decoration-accent underline-offset-4" href="mailto:hello@globiqall.com">
+            hello@globiqall.com
           </a>
           . Abuse/legal:{" "}
-          <a className="underline decoration-accent underline-offset-4" href="mailto:abuse@globiqall.app">
-            abuse@globiqall.app
+          <a className="underline decoration-accent underline-offset-4" href="mailto:abuse@globiqall.com">
+            abuse@globiqall.com
           </a>
           .
         </P>

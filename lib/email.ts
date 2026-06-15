@@ -4,7 +4,7 @@
  * throws — callers treat email as best-effort.
  */
 
-const FROM = process.env.EMAIL_FROM ?? "GlobiQall <hello@globiqall.app>";
+const FROM = process.env.EMAIL_FROM ?? "GlobiQall <hello@globiqall.com>";
 
 export async function sendEmail(opts: {
   to: string;

@@ -28,8 +28,8 @@ export default function PrivacyPage() {
       <Section title="Who runs this">
         <P>
           GlobiQall is operated by its founders. You can reach us at{" "}
-          <a className="underline decoration-accent underline-offset-4" href="mailto:privacy@globiqall.app">
-            privacy@globiqall.app
+          <a className="underline decoration-accent underline-offset-4" href="mailto:privacy@globiqall.com">
+            privacy@globiqall.com
           </a>
           .
         </P>
@@ -103,7 +103,7 @@ export default function PrivacyPage() {
           </Bullet>
           <Bullet>
             <strong>Contact us</strong> with any privacy question at{" "}
-            <a className="underline decoration-accent underline-offset-4" href="mailto:privacy@globiqall.app">privacy@globiqall.app</a>
+            <a className="underline decoration-accent underline-offset-4" href="mailto:privacy@globiqall.com">privacy@globiqall.com</a>
             . We respond within 30 days as required by GDPR.
           </Bullet>
         </ul>

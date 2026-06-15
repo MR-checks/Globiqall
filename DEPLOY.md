@@ -30,7 +30,7 @@ Required:
 AUTH_SECRET                 # openssl rand -base64 33
 DATABASE_URL                # Supabase pooled: ...@host:6543/postgres?pgbouncer=true&connection_limit=1
 DIRECT_URL                  # Supabase direct: ...@host:5432/postgres
-NEXT_PUBLIC_APP_URL         # https://globiqall.app  (your domain)
+NEXT_PUBLIC_APP_URL         # https://globiqall.com  (your domain)
 DROPS_REFRESH_SECRET        # openssl rand -base64 24
 PREDICTIONS_SWEEP_SECRET    # openssl rand -base64 24
 ```

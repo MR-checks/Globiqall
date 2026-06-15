@@ -4,7 +4,7 @@ import { db } from "@/lib/db";
 export const revalidate = 3600;
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const base = process.env.NEXT_PUBLIC_APP_URL ?? "https://globiqall.app";
+  const base = process.env.NEXT_PUBLIC_APP_URL ?? "https://globiqall.com";
 
   // Static + section routes
   const staticRoutes: MetadataRoute.Sitemap = [

@@ -57,7 +57,7 @@ export function ProfileSettingsForm({ defaults, email }: Props) {
       >
         <div className="flex items-stretch rounded-md border border-input bg-card overflow-hidden focus-within:ring-2 focus-within:ring-ring focus-within:ring-offset-1 focus-within:ring-offset-background transition-shadow">
           <span className="grid place-items-center px-3 font-mono text-[12px] uppercase tracking-[0.08em] text-muted-foreground border-r border-border bg-secondary/50">
-            globiqall.app/u/
+            globiqall.com/u/
           </span>
           <input
             value={usernamePreview}

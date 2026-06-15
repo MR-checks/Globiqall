@@ -14,7 +14,7 @@ export type RawDrop = {
 
 // Real-browser-looking UA so feeds we hit don't 403 us out of the gate.
 const USER_AGENT =
-  "Mozilla/5.0 (compatible; globiqall-drops/0.1; +https://globiqall.app)";
+  "Mozilla/5.0 (compatible; globiqall-drops/0.1; +https://globiqall.com)";
 
 async function fetchJSON<T = unknown>(url: string, init?: RequestInit): Promise<T | null> {
   try {

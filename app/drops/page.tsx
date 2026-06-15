@@ -1,8 +1,9 @@
 import Link from "next/link";
 import { ArrowUpRight, Sparkles } from "lucide-react";
-import { listDrops } from "@/lib/drops/queries";
+import { listDrops, type DropSort } from "@/lib/drops/queries";
 import { db } from "@/lib/db";
 import { categoryDotStyle } from "@/lib/category-colors";
+import { SortTabs } from "@/components/sort-tabs";
 import { cn, formatRelative } from "@/lib/utils";
 
 export const metadata = {
@@ -12,16 +13,32 @@ export const metadata = {
 
 export const revalidate = 300; // 5 min cache for the page
 
-type PageProps = { searchParams: Promise<{ c?: string }> };
+type PageProps = { searchParams: Promise<{ c?: string; sort?: string }> };
+
+const DROP_SORTS: { value: DropSort; label: string }[] = [
+  { value: "latest", label: "Latest" },
+  { value: "top", label: "Top" },
+  { value: "expiring", label: "Expiring" },
+];
 
 export default async function DropsPage({ searchParams }: PageProps) {
-  const { c } = await searchParams;
+  const { c, sort: sortParam } = await searchParams;
   const category = c?.trim() || null;
+  const sort: DropSort =
+    sortParam === "top" || sortParam === "expiring" ? sortParam : "latest";
 
   const [drops, allCats] = await Promise.all([
-    listDrops({ category, limit: 60 }),
+    listDrops({ category, limit: 60, sort }),
     db.category.findMany({ orderBy: { order: "asc" } }),
   ]);
+
+  const sortItems = DROP_SORTS.map((s) => {
+    const p = new URLSearchParams();
+    if (category) p.set("c", category);
+    if (s.value !== "latest") p.set("sort", s.value);
+    const qs = p.toString();
+    return { label: s.label, href: qs ? `/drops?${qs}` : "/drops", active: sort === s.value };
+  });
 
   // Count per category for the filter chips (just over the active set)
   const counts = await db.drop.groupBy({
@@ -49,6 +66,13 @@ export default async function DropsPage({ searchParams }: PageProps) {
       </header>
 
       <CategoryFilter active={category} cats={allCats} counts={countMap} />
+
+      <div className="mt-5 flex items-center justify-between gap-3">
+        <span className="font-mono text-[10px] uppercase tracking-[0.12em] text-muted-foreground">
+          {drops.length} {drops.length === 1 ? "drop" : "drops"}
+        </span>
+        <SortTabs items={sortItems} />
+      </div>
 
       {drops.length === 0 ? (
         <p className="text-center text-[13px] text-muted-foreground py-12">

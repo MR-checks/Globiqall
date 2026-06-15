@@ -5,14 +5,44 @@ import { Button } from "@/components/ui/button";
 import { CategoryPills } from "@/components/category-pills";
 import { DropsStrip } from "@/components/drops-strip";
 import { PollCard } from "@/components/poll-card";
-import { listTrendingPolls } from "@/lib/trending";
+import { listTrendingPolls, type TrendingSort } from "@/lib/trending";
+import { SortTabs } from "@/components/sort-tabs";
 import { db } from "@/lib/db";
 import { categoryAccentStyle, categoryDotStyle } from "@/lib/category-colors";
 import { formatCount, formatRelative, pct } from "@/lib/utils";
 
 export const revalidate = 30;
 
-export default async function HomePage() {
+const HOME_SORTS: { value: TrendingSort; label: string }[] = [
+  { value: "locking", label: "Locking soon" },
+  { value: "trending", label: "Trending" },
+  { value: "new", label: "Newest" },
+  { value: "votes", label: "Top" },
+];
+
+const HOME_SORT_TITLE: Record<TrendingSort, string> = {
+  locking: "Locking soon",
+  trending: "Trending · Last 24h",
+  new: "Newest",
+  votes: "Most voted",
+};
+
+export default async function HomePage({
+  searchParams,
+}: {
+  searchParams: Promise<{ sort?: string }>;
+}) {
+  const { sort: sortParam } = await searchParams;
+  const sort: TrendingSort =
+    sortParam === "trending" || sortParam === "new" || sortParam === "votes"
+      ? sortParam
+      : "locking";
+  const sortItems = HOME_SORTS.map((s) => ({
+    label: s.label,
+    href: s.value === "locking" ? "/" : `/?sort=${s.value}`,
+    active: sort === s.value,
+  }));
+
   return (
     <div>
       <Hero />
@@ -33,17 +63,15 @@ export default async function HomePage() {
           </Link>
         </div>
 
-        <div className="hairline-b pb-3 mb-5 flex items-baseline justify-between">
+        <div className="hairline-b pb-3 mb-5 flex items-center justify-between gap-3">
           <h2 className="font-mono text-[11px] uppercase tracking-[0.16em] text-muted-foreground">
-            Trending · Last 24h
+            {HOME_SORT_TITLE[sort]}
           </h2>
-          <span className="font-mono text-[10px] uppercase tracking-[0.12em] text-muted-foreground">
-            updated live
-          </span>
+          <SortTabs items={sortItems} />
         </div>
 
-        <Suspense fallback={<FeedSkeleton />}>
-          <Feed />
+        <Suspense key={sort} fallback={<FeedSkeleton />}>
+          <Feed sort={sort} />
         </Suspense>
       </section>
     </div>
@@ -221,8 +249,8 @@ async function Ticker() {
   );
 }
 
-async function Feed() {
-  const polls = await listTrendingPolls(12);
+async function Feed({ sort }: { sort: TrendingSort }) {
+  const polls = await listTrendingPolls(12, {}, sort);
   if (polls.length === 0) {
     return (
       <div className="rounded-md border border-dashed border-border p-10 text-center">

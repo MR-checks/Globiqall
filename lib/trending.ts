@@ -25,13 +25,68 @@ const cardInclude = {
   options: { orderBy: { position: "asc" as const } },
 } satisfies Prisma.PollInclude;
 
+export type TrendingSort = "trending" | "locking" | "new" | "votes";
+
 /**
  * Trending feed: fetches a broad candidate pool, scores in memory, returns top N
  * tagged with a `rising` flag when momentum is exceptional (high score, recent age,
  * meaningful sample size).
+ *
+ * `sort` switches the ordering:
+ *   - trending (default): HN-style time-decay score
+ *   - locking: open predictions soonest-to-lock first, then recent
+ *   - new: newest first
+ *   - votes: most-voted first
  */
-export async function listTrendingPolls(limit = 12, where: Prisma.PollWhereInput = {}) {
+export async function listTrendingPolls(
+  limit = 12,
+  where: Prisma.PollWhereInput = {},
+  sort: TrendingSort = "trending",
+) {
   const baseWhere = { visibility: "PUBLIC", ...where };
+
+  // Plain DB-ordered modes.
+  if (sort === "new" || sort === "votes") {
+    const polls = await db.poll.findMany({
+      where: baseWhere,
+      orderBy:
+        sort === "new"
+          ? { createdAt: "desc" }
+          : [{ totalVotes: "desc" }, { createdAt: "desc" }],
+      take: limit,
+      include: cardInclude,
+    });
+    return polls.map((p) => ({ ...p, score: 0, ageHours: 0, rising: false }));
+  }
+
+  // Locking-soon: open predictions ordered by nearest lock, then fill with the
+  // most recent of everything else (deduped).
+  if (sort === "locking") {
+    const now = new Date();
+    const [openPreds, others] = await Promise.all([
+      db.poll.findMany({
+        where: { ...baseWhere, mode: "PREDICTION", resolvedAt: null, lockAt: { gt: now } },
+        orderBy: { lockAt: "asc" },
+        take: limit,
+        include: cardInclude,
+      }),
+      db.poll.findMany({
+        where: baseWhere,
+        orderBy: { createdAt: "desc" },
+        take: limit,
+        include: cardInclude,
+      }),
+    ]);
+    const seen = new Set<string>();
+    const merged: typeof openPreds = [];
+    for (const p of [...openPreds, ...others]) {
+      if (seen.has(p.id)) continue;
+      seen.add(p.id);
+      merged.push(p);
+      if (merged.length >= limit) break;
+    }
+    return merged.map((p) => ({ ...p, score: 0, ageHours: 0, rising: false }));
+  }
 
   // Two-pronged candidate pool: most recent + most voted. Dedupe by id.
   const [recent, popular] = await Promise.all([

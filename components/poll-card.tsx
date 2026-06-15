@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { Lock, Target, TrendingUp } from "lucide-react";
 import { categoryAccentStyle, categoryDotStyle } from "@/lib/category-colors";
+import { pollIcon } from "@/lib/poll-visuals";
 import { cn, formatCount, formatCountdown, formatRelative, pct } from "@/lib/utils";
 
 type PollCardData = {
@@ -52,6 +53,7 @@ export function PollCard({ poll }: { poll: PollCardData }) {
   const lead = resolvedWinner ?? sorted[0];
   const runner = sorted.find((o) => o.id !== lead?.id) ?? sorted[1];
   const leadPct = lead ? pct(lead.voteCount, total) : 0;
+  const icon = pollIcon(poll);
 
   return (
     <Link
@@ -112,9 +114,17 @@ export function PollCard({ poll }: { poll: PollCardData }) {
 
       {/* Body */}
       <div className="px-4 pt-3 pb-4 flex-1 flex flex-col">
-        <h3 className="text-[15px] font-medium leading-snug text-balance tracking-tight-2 group-hover:text-foreground transition-colors">
-          {poll.title}
-        </h3>
+        <div className="flex items-start gap-2.5">
+          <span
+            className="mt-0.5 grid h-7 w-7 shrink-0 place-items-center rounded-md border border-border bg-secondary/40 text-[15px] leading-none"
+            aria-hidden
+          >
+            {icon}
+          </span>
+          <h3 className="text-[15px] font-medium leading-snug text-balance tracking-tight-2 group-hover:text-foreground transition-colors">
+            {poll.title}
+          </h3>
+        </div>
 
         {/* Result strip */}
         <div className="mt-5 flex items-end gap-4">
@@ -126,10 +136,18 @@ export function PollCard({ poll }: { poll: PollCardData }) {
           </div>
           <div className="min-w-0 flex-1 pb-1">
             <div className="truncate text-[13px] font-medium">
-              {lead ? lead.label : "—"}
+              {lead ? (
+                <>
+                  {lead.emoji && <span className="mr-1.5" aria-hidden>{lead.emoji}</span>}
+                  {lead.label}
+                </>
+              ) : (
+                "—"
+              )}
             </div>
             {runner && (
               <div className="truncate text-[11px] text-muted-foreground mt-0.5">
+                {runner.emoji && <span className="mr-1" aria-hidden>{runner.emoji}</span>}
                 {runner.label}
                 <span className="font-mono ml-1 tabular-nums">
                   {pct(runner.voteCount, total).toFixed(1)}%

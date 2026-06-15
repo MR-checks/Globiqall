@@ -64,6 +64,17 @@ export async function GET(req: Request) {
     /* fall through to generic */
   }
 
+  // Brand mark: inline the G icon (fetched from the deployment origin) so the
+  // OG renderer can embed it; fall back to the wordmark glyph if unavailable.
+  let logoSrc = "";
+  try {
+    const origin = new URL(req.url).origin;
+    const buf = await fetch(`${origin}/favicon-64-dark.png`).then((r) => r.arrayBuffer());
+    logoSrc = `data:image/png;base64,${Buffer.from(buf).toString("base64")}`;
+  } catch {
+    /* keep logoSrc empty -> inline svg fallback below */
+  }
+
   return new ImageResponse(
     (
       <div
@@ -80,9 +91,14 @@ export async function GET(req: Request) {
         {/* top bar */}
         <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
           <div style={{ display: "flex", alignItems: "center", gap: "14px" }}>
-            <svg width="34" height="34" viewBox="0 0 28 28" fill="none">
-              <path d="M2 14 H8 L11 6 L14 22 L17 9 L20 14 H26" stroke={TEXT} strokeWidth="2" />
-            </svg>
+            {logoSrc ? (
+              // eslint-disable-next-line @next/next/no-img-element
+              <img width="36" height="36" src={logoSrc} style={{ borderRadius: "8px" }} />
+            ) : (
+              <svg width="34" height="34" viewBox="0 0 28 28" fill="none">
+                <path d="M2 14 H8 L11 6 L14 22 L17 9 L20 14 H26" stroke={TEXT} strokeWidth="2" />
+              </svg>
+            )}
             <div style={{ display: "flex", fontSize: "26px", color: TEXT, fontWeight: 600 }}>
               GlobiQall<span style={{ color: ACCENT }}>.</span>
             </div>

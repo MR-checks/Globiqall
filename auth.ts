@@ -64,7 +64,7 @@ if (process.env.EMAIL_SERVER_HOST && process.env.EMAIL_SERVER_USER) {
           pass: process.env.EMAIL_SERVER_PASSWORD,
         },
       },
-      from: process.env.EMAIL_FROM ?? "Globiqall <hello@globiqall.app>",
+      from: process.env.EMAIL_FROM ?? "GlobiQall <hello@globiqall.app>",
       // Wrap the default SMTP send with our rate limiter.
       sendVerificationRequest: rateLimitedSend(async ({ identifier, url }) => {
         const nodemailer = await import("nodemailer");
@@ -78,10 +78,10 @@ if (process.env.EMAIL_SERVER_HOST && process.env.EMAIL_SERVER_USER) {
         });
         await transport.sendMail({
           to: identifier,
-          from: process.env.EMAIL_FROM ?? "Globiqall <hello@globiqall.app>",
-          subject: "Your Globiqall sign-in link",
-          text: `Sign in to Globiqall:\n\n${url}\n\nThis link expires in 24 hours. If you didn't request it, ignore this email.`,
-          html: `<p>Sign in to Globiqall:</p><p><a href="${url}">${url}</a></p><p style="color:#888;font-size:12px">This link expires in 24 hours. If you didn't request it, ignore this email.</p>`,
+          from: process.env.EMAIL_FROM ?? "GlobiQall <hello@globiqall.app>",
+          subject: "Your GlobiQall sign-in link",
+          text: `Sign in to GlobiQall:\n\n${url}\n\nThis link expires in 24 hours. If you didn't request it, ignore this email.`,
+          html: `<p>Sign in to GlobiQall:</p><p><a href="${url}">${url}</a></p><p style="color:#888;font-size:12px">This link expires in 24 hours. If you didn't request it, ignore this email.</p>`,
         });
       }),
     }),
@@ -91,7 +91,7 @@ if (process.env.EMAIL_SERVER_HOST && process.env.EMAIL_SERVER_USER) {
   providers.push(
     Nodemailer({
       server: { host: "localhost", port: 25, auth: { user: "", pass: "" } },
-      from: "Globiqall <dev@globiqall.local>",
+      from: "GlobiQall <dev@globiqall.local>",
       sendVerificationRequest: rateLimitedSend(async ({ identifier, url }) => {
         const banner = "═".repeat(72);
         console.log(`\n${banner}\n🔐 DEV magic link for ${identifier}\n${url}\n${banner}\n`);

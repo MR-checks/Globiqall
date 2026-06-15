@@ -20,7 +20,7 @@ export default function CheckEmailPage() {
         href="/"
         className="inline-block mt-8 text-sm underline decoration-accent underline-offset-4"
       >
-        ← Back to globiqall
+        ← Back to GlobiQall
       </Link>
     </div>
   );

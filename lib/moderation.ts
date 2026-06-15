@@ -51,7 +51,7 @@ export function moderate(text: string, field: GuardField): GuardResult {
 
   for (const re of BLOCK_PATTERNS) {
     if (re.test(trimmed)) {
-      return { ok: false, error: "Contains language we don't allow on Globiqall." };
+      return { ok: false, error: "Contains language we don't allow on GlobiQall." };
     }
   }
 

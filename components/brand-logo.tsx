@@ -1,9 +1,10 @@
+import Image from "next/image";
 import { cn } from "@/lib/utils";
 
 /**
- * Globiqall mark: a single pulse waveform — one upward signal in a flat line.
- * Renders in currentColor so it inherits theme naturally.
- * The period after the wordmark is the only colored element (accent amber).
+ * GlobiQall mark: the brand "G" icon, theme-switched (light icon on light
+ * surfaces, navy icon on dark), next to the wordmark. The period after the
+ * wordmark is the only colored element (accent).
  */
 export function BrandLogo({
   className,
@@ -21,25 +22,26 @@ export function BrandLogo({
         className,
       )}
     >
-      <svg
+      <Image
+        src="/favicon-64-light.png"
+        alt="GlobiQall"
         width={size}
         height={size}
-        viewBox="0 0 28 28"
-        fill="none"
+        priority
+        className="shrink-0 rounded-[5px] block dark:hidden"
+      />
+      <Image
+        src="/favicon-64-dark.png"
+        alt=""
         aria-hidden
-        className="shrink-0"
-      >
-        <path
-          d="M1 14 H8 L11 6 L14 22 L17 9 L20 14 H27"
-          stroke="currentColor"
-          strokeWidth="1.75"
-          strokeLinecap="square"
-          strokeLinejoin="miter"
-        />
-      </svg>
+        width={size}
+        height={size}
+        priority
+        className="shrink-0 rounded-[5px] hidden dark:block"
+      />
       {withWordmark && (
         <span className="text-[15px] font-semibold tracking-tight-2 leading-none">
-          globiqall<span className="text-accent">.</span>
+          GlobiQall<span className="text-accent">.</span>
         </span>
       )}
     </span>

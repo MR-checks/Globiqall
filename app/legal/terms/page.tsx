@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: "Terms of service",
-  description: "The rules of using Globiqall. Plain English, no fine print.",
+  description: "The rules of using GlobiQall. Plain English, no fine print.",
 };
 
 const LAST_UPDATED = "2026-06-01";
@@ -20,13 +20,13 @@ export default function TermsPage() {
         Last updated · {LAST_UPDATED}
       </p>
       <p className="mt-5 text-[15px] leading-relaxed text-foreground/90 text-pretty">
-        Plain rules for using Globiqall. By creating an account or casting a vote,
+        Plain rules for using GlobiQall. By creating an account or casting a vote,
         you agree to these.
       </p>
 
-      <Section title="What Globiqall is">
+      <Section title="What GlobiQall is">
         <P>
-          Globiqall is a global polling platform. People create polls, vote, comment,
+          GlobiQall is a global polling platform. People create polls, vote, comment,
           and watch results update live. The service is free to use, in beta, and
           provided "as-is" without warranty of any kind.
         </P>
@@ -69,7 +69,7 @@ export default function TermsPage() {
 
       <Section title="Your content, our license">
         <P>
-          You own what you post. You give Globiqall a worldwide, royalty-free,
+          You own what you post. You give GlobiQall a worldwide, royalty-free,
           non-exclusive license to host, display, format, and distribute it on the
           service. This license ends when you delete the content — except for
           aggregate vote counts and analytics, which remain anonymous and unattributed.
@@ -102,7 +102,7 @@ export default function TermsPage() {
 
       <Section title="Limit of liability">
         <P>
-          To the maximum extent allowed by law, Globiqall, its operators, and its
+          To the maximum extent allowed by law, GlobiQall, its operators, and its
           contributors are not liable for indirect, incidental, consequential, or
           punitive damages, or for lost profits or data, arising from your use of
           the service. Our total liability is capped at one hundred US dollars

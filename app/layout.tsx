@@ -21,17 +21,32 @@ const mono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: {
-    default: "Globiqall — The world is voting",
-    template: "%s · Globiqall",
+    default: "GlobiQall — The world is voting",
+    template: "%s · GlobiQall",
   },
   description:
     "Live global polls. Vote, settle debates, and watch the world make up its mind in real time.",
-  applicationName: "Globiqall",
+  applicationName: "GlobiQall",
   icons: {
-    icon: [{ url: "/favicon.svg", type: "image/svg+xml" }],
+    icon: [
+      {
+        url: "/favicon-64-dark.png",
+        type: "image/png",
+        sizes: "64x64",
+        media: "(prefers-color-scheme: dark)",
+      },
+      {
+        url: "/favicon-64-light.png",
+        type: "image/png",
+        sizes: "64x64",
+        media: "(prefers-color-scheme: light)",
+      },
+      { url: "/icon-512.png", type: "image/png", sizes: "512x512" },
+    ],
+    apple: [{ url: "/apple-touch-icon.png", sizes: "180x180" }],
   },
   openGraph: {
-    title: "Globiqall — The world is voting",
+    title: "GlobiQall — The world is voting",
     description:
       "Live global polls. Vote, settle debates, and watch the world make up its mind in real time.",
     type: "website",

@@ -26,10 +26,10 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   if (!poll) return { title: "Poll not found" };
   return {
     title: poll.title,
-    description: poll.description ?? "Cast your vote on Globiqall.",
+    description: poll.description ?? "Cast your vote on GlobiQall.",
     openGraph: {
       title: poll.title,
-      description: poll.description ?? "Cast your vote on Globiqall.",
+      description: poll.description ?? "Cast your vote on GlobiQall.",
     },
   };
 }

@@ -10,7 +10,7 @@ export default function AboutPage() {
         About
       </div>
       <h1 className="text-[32px] sm:text-[44px] leading-[1.05] font-medium tracking-tightest text-balance">
-        Globiqall is where the world makes up its mind — together.
+        GlobiQall is where the world makes up its mind — together.
       </h1>
       <p className="mt-5 text-[16px] leading-relaxed text-muted-foreground text-pretty max-w-prose">
         Every person on Earth should have a place to vote on the questions that
@@ -37,7 +37,7 @@ export default function AboutPage() {
 
       <Section id="terms" title="Terms">
         <p className="text-[14px] text-muted-foreground leading-relaxed max-w-prose">
-          By using Globiqall you agree to the community rules above and to not
+          By using GlobiQall you agree to the community rules above and to not
           abuse the service. This is a free, beta product — provided as-is,
           improved every week.
         </p>

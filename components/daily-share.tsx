@@ -23,7 +23,7 @@ export function DailyShare({
   const appUrl =
     typeof window !== "undefined" ? `${window.location.origin}/daily` : "globiqall.app/daily";
 
-  const shareText = `Globiqall Daily · ${dateLabel}\nI made today's call 🔵\nStreak: ${streak} ${streak === 1 ? "day" : "days"} 🔥\n${appUrl}`;
+  const shareText = `GlobiQall Daily · ${dateLabel}\nI made today's call 🔵\nStreak: ${streak} ${streak === 1 ? "day" : "days"} 🔥\n${appUrl}`;
 
   const share = async () => {
     try {

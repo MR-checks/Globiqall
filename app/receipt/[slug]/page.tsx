@@ -51,7 +51,7 @@ export async function generateMetadata({ params, searchParams }: PageProps): Pro
   if (!data) return { title: "Receipt" };
   const img = `${base}/api/og/receipt?poll=${encodeURIComponent(slug)}&u=${encodeURIComponent(u ?? "")}`;
   const title = `@${data.user.username} called it`;
-  const desc = `"${data.poll.title}" — called ${data.leadDays} days early. Verified by Globiqall.`;
+  const desc = `"${data.poll.title}" — called ${data.leadDays} days early. Verified by GlobiQall.`;
   return {
     title,
     description: desc,
@@ -90,7 +90,7 @@ export default async function ReceiptPage({ params, searchParams }: PageProps) {
       </div>
 
       <div className="mt-5">
-        <ReceiptShareActions shareUrl={shareUrl} title={`I called "${data.poll.title}" on Globiqall`} />
+        <ReceiptShareActions shareUrl={shareUrl} title={`I called "${data.poll.title}" on GlobiQall`} />
       </div>
 
       <div className="mt-6 flex items-center justify-between text-[13px]">

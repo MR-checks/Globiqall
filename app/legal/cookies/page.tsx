@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: "Cookie policy",
-  description: "What Globiqall stores in your browser and why.",
+  description: "What GlobiQall stores in your browser and why.",
 };
 
 const LAST_UPDATED = "2026-06-01";
@@ -20,7 +20,7 @@ export default function CookiesPage() {
         Last updated · {LAST_UPDATED}
       </p>
       <p className="mt-5 text-[15px] leading-relaxed text-foreground/90 text-pretty">
-        Globiqall uses the minimum browser storage needed to keep you signed in and remember your preferences. Everything else is opt-in.
+        GlobiQall uses the minimum browser storage needed to keep you signed in and remember your preferences. Everything else is opt-in.
       </p>
 
       <Section title="Essential — always on">
@@ -71,7 +71,7 @@ export default function CookiesPage() {
       <Section title="Third parties we never use">
         <P>
           We don't use Google Analytics, Facebook Pixel, TikTok Pixel, or any
-          advertising/retargeting tracker. Globiqall is not ad-supported.
+          advertising/retargeting tracker. GlobiQall is not ad-supported.
         </P>
       </Section>
 

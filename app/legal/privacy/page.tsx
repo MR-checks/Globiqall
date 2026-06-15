@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: "Privacy policy",
-  description: "What Globiqall collects, why, and your rights.",
+  description: "What GlobiQall collects, why, and your rights.",
 };
 
 const LAST_UPDATED = "2026-06-01";
@@ -27,7 +27,7 @@ export default function PrivacyPage() {
 
       <Section title="Who runs this">
         <P>
-          Globiqall is operated by its founders. You can reach us at{" "}
+          GlobiQall is operated by its founders. You can reach us at{" "}
           <a className="underline decoration-accent underline-offset-4" href="mailto:privacy@globiqall.app">
             privacy@globiqall.app
           </a>
@@ -134,7 +134,7 @@ export default function PrivacyPage() {
 
       <Section title="Children">
         <P>
-          Globiqall is for users 13 and older (16 in the EU). We do not knowingly collect data from children below those ages. If you believe a child has signed up, email us and we'll delete the account.
+          GlobiQall is for users 13 and older (16 in the EU). We do not knowingly collect data from children below those ages. If you believe a child has signed up, email us and we'll delete the account.
         </P>
       </Section>
 

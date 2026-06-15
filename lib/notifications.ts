@@ -51,7 +51,7 @@ export async function notify(input: NotifyInput): Promise<void> {
           to: user.email,
           subject: input.title,
           text: `${input.body ?? input.title}\n\n${link}`,
-          html: `<p>${input.body ?? input.title}</p><p><a href="${link}">Open Globiqall</a></p>`,
+          html: `<p>${input.body ?? input.title}</p><p><a href="${link}">Open GlobiQall</a></p>`,
         });
       }
     } catch {

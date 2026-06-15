@@ -78,7 +78,7 @@ export function Footer() {
       </div>
       <div className="hairline-t">
         <div className="container py-3.5 flex flex-col sm:flex-row items-center justify-between gap-2 text-[11px] text-muted-foreground font-mono uppercase tracking-[0.08em]">
-          <span>© {new Date().getFullYear()} globiqall</span>
+          <span>© {new Date().getFullYear()} GlobiQall</span>
           <span>signal · live</span>
         </div>
       </div>

@@ -166,7 +166,7 @@ export function PollCard({ poll }: { poll: PollCardData }) {
                 </span>
               </>
             ) : (
-              <span>globiqall</span>
+              <span>GlobiQall</span>
             )}
           </span>
         </div>

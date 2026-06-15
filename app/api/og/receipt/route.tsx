@@ -84,7 +84,7 @@ export async function GET(req: Request) {
               <path d="M2 14 H8 L11 6 L14 22 L17 9 L20 14 H26" stroke={TEXT} strokeWidth="2" />
             </svg>
             <div style={{ display: "flex", fontSize: "26px", color: TEXT, fontWeight: 600 }}>
-              globiqall<span style={{ color: ACCENT }}>.</span>
+              GlobiQall<span style={{ color: ACCENT }}>.</span>
             </div>
           </div>
           <div

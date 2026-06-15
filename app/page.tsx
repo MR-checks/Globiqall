@@ -51,22 +51,14 @@ export default async function HomePage() {
 }
 
 async function Hero() {
-  const [headlinePoll, stats] = await Promise.all([
-    db.poll.findFirst({
-      where: { visibility: "PUBLIC" },
-      orderBy: [{ totalVotes: "desc" }, { createdAt: "desc" }],
-      include: {
-        category: true,
-        options: { orderBy: { position: "asc" } },
-      },
-    }),
-    db.$transaction([
-      db.poll.count({ where: { visibility: "PUBLIC" } }),
-      db.vote.count(),
-      db.user.count(),
-    ]),
-  ]);
-  const [polls, votes, users] = stats;
+  const headlinePoll = await db.poll.findFirst({
+    where: { visibility: "PUBLIC" },
+    orderBy: [{ totalVotes: "desc" }, { createdAt: "desc" }],
+    include: {
+      category: true,
+      options: { orderBy: { position: "asc" } },
+    },
+  });
 
   const sortedOptions = headlinePoll
     ? [...headlinePoll.options].sort((a, b) => b.voteCount - a.voteCount)
@@ -79,18 +71,6 @@ async function Hero() {
   return (
     <section className="hairline-b">
       <div className="container py-10 sm:py-14">
-        {/* Global ticker label */}
-        <div className="flex items-center justify-between mb-8">
-          <div className="inline-flex items-center gap-2 font-mono text-[10px] uppercase tracking-[0.16em] text-muted-foreground">
-            <span>Globiqall · Signal · Now</span>
-          </div>
-          <div className="hidden sm:flex items-center gap-6 font-mono text-[10px] uppercase tracking-[0.12em] text-muted-foreground">
-            <Stat label="polls" value={formatCount(polls)} />
-            <Stat label="votes" value={formatCount(votes)} />
-            <Stat label="voters" value={formatCount(users)} />
-          </div>
-        </div>
-
         {/* Main headline */}
         <h1 className="font-sans text-[36px] sm:text-[56px] leading-[1.02] tracking-tightest font-medium text-balance max-w-4xl">
           The world is voting.{" "}
@@ -195,15 +175,6 @@ async function Hero() {
         </div>
       </div>
     </section>
-  );
-}
-
-function Stat({ label, value }: { label: string; value: string }) {
-  return (
-    <div className="flex items-baseline gap-2">
-      <span className="text-foreground font-medium tabular-nums">{value}</span>
-      <span>{label}</span>
-    </div>
   );
 }
 

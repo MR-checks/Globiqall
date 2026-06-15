@@ -24,7 +24,7 @@ export default async function ProfileSettingsPage() {
         Your public face.
       </h1>
       <p className="text-muted-foreground mt-2 text-[14px]">
-        Pick a username, add a bio. This is how you'll show up on Globiqall.
+        Pick a username, add a bio. This is how you'll show up on GlobiQall.
       </p>
 
       <div className="mt-8">

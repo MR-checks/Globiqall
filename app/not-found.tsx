@@ -14,7 +14,7 @@ export default function NotFound() {
         That poll wandered off. Let's get you back on course.
       </p>
       <Button asChild variant="accent" className="mt-6">
-        <Link href="/">Back to globiqall</Link>
+        <Link href="/">Back to GlobiQall</Link>
       </Button>
     </div>
   );

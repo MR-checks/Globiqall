@@ -40,7 +40,7 @@ export function PollStatusBadge({
   return (
     <span
       className={cn(
-        "inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-[9px] font-mono font-semibold uppercase tracking-[0.14em] shadow-sm",
+        "inline-flex items-center gap-1.5 rounded-t-[7px] px-2.5 py-1 text-[9px] font-mono font-semibold uppercase tracking-[0.14em] shadow-sm",
         tone,
         className,
       )}

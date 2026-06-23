@@ -3,9 +3,8 @@ import { cn } from "@/lib/utils";
 export type PollState = "OPEN" | "LOCKED" | "RESOLVED" | null;
 
 /**
- * The status ribbon shown at the top-right of a poll card / box.
- * LIVE (red) for open calls, LOCKED (amber), RESOLVED (green), NEW (accent)
- * for a freshly opened poll that isn't a prediction.
+ * Status ribbon for the top-left corner of a poll card. A small banner with a
+ * sloped right edge (clip-path) carrying the poll's state.
  */
 export function PollStatusBadge({
   state,
@@ -21,17 +20,17 @@ export function PollStatusBadge({
   let live = false;
 
   if (state === "OPEN") {
-    label = "Live";
+    label = "open call";
     tone = "bg-red-600 text-white";
     live = true;
   } else if (state === "LOCKED") {
-    label = "Locked";
+    label = "locked";
     tone = "bg-amber-500 text-black";
   } else if (state === "RESOLVED") {
-    label = "Resolved";
+    label = "resolved";
     tone = "bg-emerald-600 text-white";
   } else if (isNew) {
-    label = "New";
+    label = "new";
     tone = "bg-accent text-accent-foreground";
   }
 
@@ -40,10 +39,11 @@ export function PollStatusBadge({
   return (
     <span
       className={cn(
-        "inline-flex items-center gap-1.5 rounded-t-[7px] px-2.5 py-1 text-[9px] font-mono font-semibold uppercase tracking-[0.14em] shadow-sm",
+        "inline-flex items-center gap-1.5 py-1 pl-2.5 pr-4 text-[9px] font-mono font-semibold uppercase tracking-[0.14em] shadow-sm",
         tone,
         className,
       )}
+      style={{ clipPath: "polygon(0 0, 100% 0, calc(100% - 10px) 100%, 0 100%)" }}
     >
       {live && (
         <span className="h-1.5 w-1.5 rounded-full bg-white animate-blink" aria-hidden />

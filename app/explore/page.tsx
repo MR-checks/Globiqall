@@ -90,7 +90,7 @@ export default async function ExplorePage({
             </p>
           </div>
         ) : (
-          <div className="grid gap-x-3 gap-y-7 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
             {polls.map((p) => (
               <PollCard
                 key={p.id}

@@ -267,7 +267,7 @@ async function Feed({ sort }: { sort: TrendingSort }) {
     );
   }
   return (
-    <div className="grid gap-x-3 gap-y-7 sm:grid-cols-2 lg:grid-cols-3">
+    <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
       {polls.map((p) => (
         <PollCard
           key={p.id}
@@ -289,7 +289,7 @@ async function Feed({ sort }: { sort: TrendingSort }) {
 
 function FeedSkeleton() {
   return (
-    <div className="grid gap-x-3 gap-y-7 sm:grid-cols-2 lg:grid-cols-3">
+    <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
       {Array.from({ length: 6 }).map((_, i) => (
         <div
           key={i}

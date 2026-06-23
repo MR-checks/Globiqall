@@ -96,14 +96,14 @@ function Section({
 }) {
   return (
     <section className="mb-10">
-      <h2 className="font-mono text-[10px] uppercase tracking-[0.16em] text-muted-foreground hairline-b pb-2 mb-4 flex items-center justify-between">
+      <h2 className="font-mono text-[10px] uppercase tracking-[0.16em] text-muted-foreground mb-4 flex items-center justify-between">
         <span>{title}</span>
         <span className="text-muted-foreground/70">{hint}</span>
       </h2>
       {polls.length === 0 ? (
         <p className="text-center text-[13px] text-muted-foreground py-8">{empty}</p>
       ) : (
-        <div className="grid gap-x-3 gap-y-7 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
           {polls.map((p) => (
             <PollCard key={p.id} poll={p} />
           ))}

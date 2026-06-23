@@ -71,15 +71,15 @@ export function PollCard({ poll }: { poll: PollCardData }) {
         aria-hidden
       />
 
-      {/* Status tab, top-left (folder-tab style) */}
+      {/* Status ribbon, top-left with a sloped right edge */}
       <PollStatusBadge
         state={predState}
         isNew={isNew && !isPrediction}
-        className="absolute bottom-full left-4 -mb-px z-10"
+        className="absolute top-0 left-0 z-10 rounded-tl-md"
       />
 
       {/* Meta row */}
-      <div className="flex items-center justify-between px-4 pt-3 text-[10px] font-mono uppercase tracking-[0.08em] text-muted-foreground">
+      <div className="flex items-center justify-between px-4 pt-7 text-[10px] font-mono uppercase tracking-[0.08em] text-muted-foreground">
         <div className="flex items-center gap-3 min-w-0">
           {poll.category && (
             <span className="inline-flex items-center gap-1.5 min-w-0">

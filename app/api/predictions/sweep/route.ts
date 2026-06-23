@@ -31,28 +31,44 @@ async function handler(req: Request) {
   const t0 = Date.now();
   const now = new Date();
 
-  // 1) Nudge due predictions
+  // 1) Nudge due (or soon-due) predictions. Notify the author AND every admin,
+  //    so a human can resolve even when the poll is system-authored (launch
+  //    content). Admins always get an email; this is what reaches a person.
+  const soon = new Date(now.getTime() + 24 * 60 * 60 * 1000);
   const due = await db.poll.findMany({
     where: {
       mode: "PREDICTION",
       resolvedAt: null,
       resolveNudgedAt: null,
-      resolvesAt: { not: null, lt: now },
+      resolvesAt: { not: null, lt: soon },
     },
-    select: { id: true, slug: true, title: true, authorId: true },
+    select: { id: true, slug: true, title: true, authorId: true, resolvesAt: true },
     take: 200,
   });
+  const admins = await db.user.findMany({
+    where: { isAdmin: true, email: { not: null } },
+    select: { id: true },
+  });
+  const adminIds = admins.map((a) => a.id);
+  let nudged = 0;
   for (const p of due) {
-    await notify({
-      userId: p.authorId,
-      type: "PREDICTION_DUE",
-      title: "Your prediction is ready to resolve",
-      body: `"${p.title}" has passed its resolve time. Mark what happened to score everyone.`,
-      href: `/p/${p.slug}`,
-      pollId: p.id,
-      email: true,
-    }).catch(() => {});
+    const isDue = p.resolvesAt ? p.resolvesAt <= now : true;
+    const recipients = new Set<string>([p.authorId, ...adminIds]);
+    for (const userId of recipients) {
+      await notify({
+        userId,
+        type: "PREDICTION_DUE",
+        title: isDue ? "Prediction ready to resolve" : "Prediction resolves soon",
+        body: isDue
+          ? `"${p.title}" has reached its resolve time. Mark what actually happened to score everyone.`
+          : `"${p.title}" resolves within 24 hours. Get ready to mark the outcome.`,
+        href: `/p/${p.slug}`,
+        pollId: p.id,
+        email: true,
+      }).catch(() => {});
+    }
     await db.poll.update({ where: { id: p.id }, data: { resolveNudgedAt: now } }).catch(() => {});
+    nudged++;
   }
 
   // 2) Refresh nemesis for a bounded batch of users who lack one
@@ -75,7 +91,7 @@ async function handler(req: Request) {
   return NextResponse.json({
     ok: true,
     durationMs: Date.now() - t0,
-    nudged: due.length,
+    nudged,
     nemesisRefreshed,
   });
 }

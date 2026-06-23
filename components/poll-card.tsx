@@ -3,6 +3,7 @@ import { TrendingUp } from "lucide-react";
 import { categoryAccentStyle, categoryDotStyle } from "@/lib/category-colors";
 import { pollIcon } from "@/lib/poll-visuals";
 import { PollStatusBadge } from "@/components/poll-status-badge";
+import { ScoreBar } from "@/components/score-bar";
 import { avatarUrl } from "@/lib/avatar";
 import { cn, formatCount, formatCountdown, formatRelative, pct } from "@/lib/utils";
 
@@ -152,16 +153,15 @@ export function PollCard({ poll }: { poll: PollCardData }) {
           </div>
         </div>
 
-        {/* Thin progress underline */}
-        <div className="mt-3 h-px w-full bg-border relative overflow-hidden">
-          <div
-            className={cn(
-              "absolute inset-y-0 left-0 transition-[width] duration-700",
-              "bg-foreground",
-            )}
-            style={{ width: `${leadPct}%` }}
-          />
-        </div>
+        {/* Context-aware result bar */}
+        <ScoreBar
+          className="mt-3"
+          options={poll.options}
+          total={total}
+          type={poll.type}
+          resolvedOptionId={poll.resolvedOptionId}
+          state={predState}
+        />
 
         {/* Footer */}
         <div className="mt-3 flex items-center justify-between text-[11px] font-mono uppercase tracking-[0.08em] text-muted-foreground">

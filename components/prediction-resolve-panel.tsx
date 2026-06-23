@@ -60,13 +60,13 @@ export function PredictionResolvePanel({
       </div>
       <p className="text-[13px] text-muted-foreground max-w-prose">
         Mark what actually happened. Every call is scored into reputation
-        instantly — correct predictors gain, confident misses lose a little.
+        instantly, correct predictors gain, confident misses lose a little.
         This can't be undone, so cite a source.
       </p>
 
       {earlyWarning && (
         <p className="mt-3 rounded-md border border-warning/30 bg-warning/10 px-3 py-2 text-[12px] text-warning font-mono uppercase tracking-[0.08em]">
-          Admin · this prediction hasn&apos;t locked yet — resolving now finalizes it early.
+          Admin · this prediction hasn&apos;t locked yet, resolving now finalizes it early.
         </p>
       )}
 

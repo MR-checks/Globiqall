@@ -42,7 +42,7 @@ export default async function MyPollsPage() {
 
       {polls.length === 0 ? (
         <div className="rounded-md border border-dashed border-border p-10 text-center">
-          <h3 className="text-[15px] font-medium">No polls yet — your turn.</h3>
+          <h3 className="text-[15px] font-medium">No polls yet, your turn.</h3>
           <p className="text-[13px] text-muted-foreground mt-1">
             Ask the planet anything. Takes 30 seconds.
           </p>

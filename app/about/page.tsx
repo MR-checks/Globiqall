@@ -10,18 +10,18 @@ export default function AboutPage() {
         About
       </div>
       <h1 className="text-[32px] sm:text-[44px] leading-[1.05] font-medium tracking-tightest text-balance">
-        GlobiQall is where the world makes up its mind — together.
+        GlobiQall is where the world makes up its mind, together.
       </h1>
       <p className="mt-5 text-[16px] leading-relaxed text-muted-foreground text-pretty max-w-prose">
         Every person on Earth should have a place to vote on the questions that
-        matter — from the silly to the serious. Public polls for the global
+        matter, from the silly to the serious. Public polls for the global
         pulse. Private polls for your team, your group, your circle. Live, fair,
         free.
       </p>
 
       <Section id="community" title="Community">
         <ul className="space-y-2 text-[14px] text-muted-foreground">
-          <Bullet>One vote per poll. Honest — you can change your mind anytime.</Bullet>
+          <Bullet>One vote per poll. Honest, you can change your mind anytime.</Bullet>
           <Bullet>Be civil. No harassment, hate, or attacks against people or groups.</Bullet>
           <Bullet>No misinformation framed as fact in poll questions.</Bullet>
           <Bullet>Keep it global. The best questions travel across cultures.</Bullet>
@@ -38,7 +38,7 @@ export default function AboutPage() {
       <Section id="terms" title="Terms">
         <p className="text-[14px] text-muted-foreground leading-relaxed max-w-prose">
           By using GlobiQall you agree to the community rules above and to not
-          abuse the service. This is a free, beta product — provided as-is,
+          abuse the service. This is a free, beta product, provided as-is,
           improved every week.
         </p>
       </Section>

@@ -28,7 +28,7 @@ export async function postComment(formData: FormData) {
     return { ok: false as const, error: bodyParse.error.issues[0]?.message ?? "Invalid" };
   }
 
-  // Visibility check — block writes to private polls without share code
+  // Visibility check, block writes to private polls without share code
   const access = await pollAccessCheck({
     pollId,
     viewerId: session.user.id,

@@ -1,5 +1,5 @@
 /**
- * Anticipation filter — pure rules, no LLM, no cost.
+ * Anticipation filter, pure rules, no LLM, no cost.
  * Goal: keep items that suggest something is about to happen or just dropped.
  * Reject items that are tragedies, breaking-now, or other non-pollable noise.
  */
@@ -39,7 +39,7 @@ const DATE_HINT = [
   /\bon\s+(?:jan|feb|mar|apr|may|jun|jul|aug|sep|sept|oct|nov|dec)[a-z]*\.?\s+\d{1,2}/i,
   /\b(?:tomorrow|tonight|this\s+weekend)\b/i,
   /\bq[1-4]\s+20\d{2}\b/i,
-  /\b20(?:2[6-9]|3\d)\b/, // future year mention (>= 2026 — current year is 2026)
+  /\b20(?:2[6-9]|3\d)\b/, // future year mention (>= 2026, current year is 2026)
 ];
 
 const NEGATIVE = [

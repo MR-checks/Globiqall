@@ -16,7 +16,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   const [categories, polls] = await Promise.all([
     db.category.findMany({ select: { slug: true } }),
-    // Cap the dynamic surface — top public polls only
+    // Cap the dynamic surface, top public polls only
     db.poll.findMany({
       where: { visibility: "PUBLIC" },
       orderBy: { totalVotes: "desc" },

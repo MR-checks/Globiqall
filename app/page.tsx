@@ -254,7 +254,7 @@ async function Feed({ sort }: { sort: TrendingSort }) {
   if (polls.length === 0) {
     return (
       <div className="rounded-md border border-dashed border-border p-10 text-center">
-        <h3 className="text-[15px] font-medium">No polls yet — be the first.</h3>
+        <h3 className="text-[15px] font-medium">No polls yet, be the first.</h3>
         <p className="text-[13px] text-muted-foreground mt-1">
           Open a poll. Watch the planet respond.
         </p>

@@ -44,7 +44,7 @@ export default async function ExplorePage({
           <Input
             name="q"
             defaultValue={query}
-            placeholder="Search polls — AI, election, GOAT, climate…"
+            placeholder="Search polls, AI, election, GOAT, climate…"
             className="pl-9 h-11 text-[14px] bg-card"
           />
         </form>

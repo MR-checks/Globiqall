@@ -1,6 +1,6 @@
 import { db } from "@/lib/db";
 
-/** UTC midnight for "today" — the canonical key for a Daily Call. */
+/** UTC midnight for "today", the canonical key for a Daily Call. */
 export function todayUtc(): Date {
   const d = new Date();
   d.setUTCHours(0, 0, 0, 0);
@@ -74,7 +74,7 @@ export async function applyDailyAccrual(userId: string): Promise<{
       next = user.dailyStreak + 1;
       changed = true;
     } else if (gap === 2 && user.streakFreezes > 0) {
-      // Missed exactly one day — burn a freeze to keep the streak alive.
+      // Missed exactly one day, burn a freeze to keep the streak alive.
       next = user.dailyStreak + 1;
       changed = true;
       freezeUsed = true;

@@ -10,7 +10,7 @@ export function posthogServer(): PostHog | null {
   if (client) return client;
   client = new PostHog(process.env.NEXT_PUBLIC_POSTHOG_KEY, {
     host: process.env.NEXT_PUBLIC_POSTHOG_HOST ?? "https://us.i.posthog.com",
-    flushAt: 1,           // small site — send immediately
+    flushAt: 1,           // small site, send immediately
     flushInterval: 5_000,
   });
   return client;

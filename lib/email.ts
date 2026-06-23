@@ -1,7 +1,7 @@
 /**
  * Tiny transactional-email helper. Uses SMTP (the same EMAIL_SERVER_* config as
  * Auth.js) when configured; otherwise logs to the server console in dev. Never
- * throws — callers treat email as best-effort.
+ * throws, callers treat email as best-effort.
  */
 
 const FROM = process.env.EMAIL_FROM ?? "GlobiQall <hello@globiqall.com>";
@@ -40,6 +40,6 @@ export async function sendEmail(opts: {
       html: opts.html ?? `<p>${opts.text}</p>`,
     });
   } catch {
-    /* swallow — email must never break the app */
+    /* swallow, email must never break the app */
   }
 }

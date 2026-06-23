@@ -21,7 +21,7 @@ const mono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: {
-    default: "GlobiQall — The world is voting",
+    default: "GlobiQall, The world is voting",
     template: "%s · GlobiQall",
   },
   description:
@@ -46,7 +46,7 @@ export const metadata: Metadata = {
     apple: [{ url: "/apple-touch-icon.png", sizes: "180x180" }],
   },
   openGraph: {
-    title: "GlobiQall — The world is voting",
+    title: "GlobiQall, The world is voting",
     description:
       "Live global polls. Vote, settle debates, and watch the world make up its mind in real time.",
     type: "website",

@@ -1,5 +1,5 @@
 /**
- * A single leading icon for a poll — a small chip on cards that gives the feed
+ * A single leading icon for a poll, a small chip on cards that gives the feed
  * visual rhythm. Topic keywords win; otherwise we fall back to the poll's
  * category emoji. Intentionally one icon per card, not emoji spam.
  */

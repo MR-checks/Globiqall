@@ -57,7 +57,7 @@ export function SignInForm({
       } else {
         setEmailSent(true);
         toast.success("Magic link sent", {
-          description: "Check your inbox — or the dev terminal.",
+          description: "Check your inbox, or the dev terminal.",
         });
       }
     } finally {
@@ -164,7 +164,7 @@ export function SignInForm({
         </div>
         {emailSent && (
           <p className="font-mono text-[11px] uppercase tracking-[0.08em] text-positive">
-            ✓ link sent — check your inbox (or terminal in dev)
+            ✓ link sent, check your inbox (or terminal in dev)
           </p>
         )}
       </form>
@@ -188,7 +188,7 @@ export function SignInForm({
               Sign in instantly
             </Button>
             <p className="font-mono text-[10px] uppercase tracking-[0.08em] text-muted-foreground">
-              local-dev only — disabled in production
+              local-dev only, disabled in production
             </p>
           </form>
         </>

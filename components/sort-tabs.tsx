@@ -3,7 +3,7 @@ import { ArrowDownWideNarrow } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 /**
- * A compact "sort by" segmented control. Server-friendly — each option is a
+ * A compact "sort by" segmented control. Server-friendly, each option is a
  * link, so it works without client JS and preserves other query params via the
  * pre-built hrefs the caller passes in.
  */

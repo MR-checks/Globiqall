@@ -21,7 +21,7 @@ export default function PrivacyPage() {
       </p>
       <p className="mt-5 text-[15px] leading-relaxed text-foreground/90 text-pretty">
         We collect the minimum we need to run a global polling site, and we never
-        sell your data. This page is the straight version — no dark patterns,
+        sell your data. This page is the straight version, no dark patterns,
         no buried exceptions.
       </p>
 
@@ -38,24 +38,24 @@ export default function PrivacyPage() {
       <Section title="What we collect">
         <ul className="space-y-2 text-[14px] text-foreground/85">
           <Bullet>
-            <strong>Account data</strong> — email (required), display name, username, optional bio and avatar URL. Collected when you sign up via email magic link or OAuth (Google, Apple, GitHub).
+            <strong>Account data</strong>, email (required), display name, username, optional bio and avatar URL. Collected when you sign up via email magic link or OAuth (Google, Apple, GitHub).
           </Bullet>
           <Bullet>
-            <strong>Activity</strong> — the polls you create, the votes you cast, the comments you post. Your individual votes are stored alongside your account so we can show you what you picked and prevent ballot stuffing.
+            <strong>Activity</strong>, the polls you create, the votes you cast, the comments you post. Your individual votes are stored alongside your account so we can show you what you picked and prevent ballot stuffing.
           </Bullet>
           <Bullet>
-            <strong>Coarse location</strong> — a two-letter country code, derived from your IP via edge headers (Vercel/Cloudflare). We never store your raw IP after deriving the country. Used to power the global breakdown on each poll.
+            <strong>Coarse location</strong>, a two-letter country code, derived from your IP via edge headers (Vercel/Cloudflare). We never store your raw IP after deriving the country. Used to power the global breakdown on each poll.
           </Bullet>
           <Bullet>
-            <strong>Reputation + streak counters</strong> — derived numbers (reputation score, streak days, badges) computed from your activity. Public on your profile.
+            <strong>Reputation + streak counters</strong>, derived numbers (reputation score, streak days, badges) computed from your activity. Public on your profile.
           </Bullet>
           <Bullet>
-            <strong>Error reports</strong> — when the app crashes for you, we send a stack trace and the URL to{" "}
+            <strong>Error reports</strong>, when the app crashes for you, we send a stack trace and the URL to{" "}
             <a className="underline decoration-accent underline-offset-4" href="https://sentry.io" target="_blank" rel="noopener noreferrer">Sentry</a>
             . We do not attach your user ID or email. Personal data is scrubbed before sending.
           </Bullet>
           <Bullet>
-            <strong>Product analytics (optional)</strong> — if you opt in to analytics in the cookie banner, we send anonymous event data (page views, votes cast) to{" "}
+            <strong>Product analytics (optional)</strong>, if you opt in to analytics in the cookie banner, we send anonymous event data (page views, votes cast) to{" "}
             <a className="underline decoration-accent underline-offset-4" href="https://posthog.com" target="_blank" rel="noopener noreferrer">PostHog</a>
             . You can opt out at any time and we'll stop immediately.
           </Bullet>
@@ -73,10 +73,10 @@ export default function PrivacyPage() {
 
       <Section title="Why we collect what we collect">
         <ul className="space-y-2 text-[14px] text-foreground/85">
-          <Bullet><strong>Email</strong> — to authenticate you, send sign-in links, and reach you about account-critical issues (security, deletion, ToS changes). Never marketing without explicit opt-in.</Bullet>
-          <Bullet><strong>Votes + polls + comments</strong> — to operate the service. This is the product.</Bullet>
-          <Bullet><strong>Country</strong> — to compute the global breakdown on poll pages. Aggregate counts only — your individual country is not shown next to your username.</Bullet>
-          <Bullet><strong>Errors + analytics</strong> — to keep the site working and to understand which features earn their place.</Bullet>
+          <Bullet><strong>Email</strong>, to authenticate you, send sign-in links, and reach you about account-critical issues (security, deletion, ToS changes). Never marketing without explicit opt-in.</Bullet>
+          <Bullet><strong>Votes + polls + comments</strong>, to operate the service. This is the product.</Bullet>
+          <Bullet><strong>Country</strong>, to compute the global breakdown on poll pages. Aggregate counts only, your individual country is not shown next to your username.</Bullet>
+          <Bullet><strong>Errors + analytics</strong>, to keep the site working and to understand which features earn their place.</Bullet>
         </ul>
       </Section>
 
@@ -99,7 +99,7 @@ export default function PrivacyPage() {
             .
           </Bullet>
           <Bullet>
-            <strong>Opt out of analytics</strong> via the cookie banner or browser settings. Essential session cookies cannot be disabled — they keep you signed in.
+            <strong>Opt out of analytics</strong> via the cookie banner or browser settings. Essential session cookies cannot be disabled, they keep you signed in.
           </Bullet>
           <Bullet>
             <strong>Contact us</strong> with any privacy question at{" "}

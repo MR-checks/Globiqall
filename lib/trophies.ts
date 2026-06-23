@@ -3,7 +3,7 @@ import { db } from "@/lib/db";
 /**
  * Trophies are minted for CORRECT prediction calls, with rarity scaled to how
  * hard the call was. We reuse the reputation a pick earned at resolution
- * (repAwarded) as the difficulty signal — it already encodes conviction ×
+ * (repAwarded) as the difficulty signal, it already encodes conviction ×
  * contrarian-correctness. No separate table needed: the trophy case is derived
  * from the user's correct votes.
  *

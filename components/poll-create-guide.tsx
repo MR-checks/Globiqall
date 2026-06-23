@@ -15,7 +15,7 @@ const STEPS = [
   {
     n: "01",
     title: "Ask one clear question",
-    body: "Short, specific, alive in the moment. Predictions, debates, opinions — all fair game.",
+    body: "Short, specific, alive in the moment. Predictions, debates, opinions, all fair game.",
   },
   {
     n: "02",

@@ -354,7 +354,7 @@ export function PollVote({
               />
 
               <div className="relative z-10 flex items-center gap-3">
-                {/* Percentage block — only shown once split is revealed */}
+                {/* Percentage block, only shown once split is revealed */}
                 <div className="w-[64px] shrink-0 font-mono tabular-nums leading-none">
                   {revealSplit ? (
                     <>

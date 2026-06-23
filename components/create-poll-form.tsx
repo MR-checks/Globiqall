@@ -54,7 +54,7 @@ export function CreatePollForm({
   const [visibility, setVisibility] = React.useState<"PUBLIC" | "UNLISTED" | "PRIVATE">(
     defaultVisibility,
   );
-  // No default category — the author must choose one (validated on submit).
+  // No default category, the author must choose one (validated on submit).
   const [categoryId, setCategoryId] = React.useState(prefill?.categoryId ?? "");
   const [options, setOptions] = React.useState<Option[]>(
     defaultType === "BINARY"
@@ -117,7 +117,7 @@ export function CreatePollForm({
     formData.set("mode", mode);
     formData.set("visibility", visibility);
     formData.set("categoryId", categoryId);
-    // datetime-local values carry no time zone — the browser reads them as the
+    // datetime-local values carry no time zone, the browser reads them as the
     // user's local time. Convert to a UTC ISO instant so the server stores the
     // correct moment regardless of its own time zone, and every viewer sees the
     // right time relative to their own.
@@ -161,7 +161,7 @@ export function CreatePollForm({
         <Textarea
           name="description"
           maxLength={500}
-          placeholder="A sentence or two — just curious where the planet stands."
+          placeholder="A sentence or two, just curious where the planet stands."
           className="bg-card"
         />
       </Field>

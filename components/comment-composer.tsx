@@ -15,7 +15,7 @@ type Props = {
   autoFocus?: boolean;
   placeholder?: string;
   onPosted?: () => void;
-  /** Required for PRIVATE polls — passed through to the server action. */
+  /** Required for PRIVATE polls, passed through to the server action. */
   shareCode?: string | null;
 };
 

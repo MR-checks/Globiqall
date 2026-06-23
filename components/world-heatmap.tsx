@@ -4,7 +4,7 @@ type Datum = { code: string; count: number };
 
 /**
  * Pulse-style minimal world heatmap. Dot scatter on an equirectangular
- * projection — restraint over realism. Country shapes are implied by the
+ * projection, restraint over realism. Country shapes are implied by the
  * dots themselves; no coastline outlines.
  *
  * Sizes scale 6→18px by count. Amber accent.
@@ -38,7 +38,7 @@ export function WorldHeatmap({ data }: { data: Datum[] }) {
           })}
         </g>
 
-        {/* Idle dots — every country we know about */}
+        {/* Idle dots, every country we know about */}
         <g fill="hsl(var(--muted-foreground))" opacity="0.18">
           {idle.map((c) => {
             const { x, y } = project(c.lat, c.lng);
@@ -46,7 +46,7 @@ export function WorldHeatmap({ data }: { data: Datum[] }) {
           })}
         </g>
 
-        {/* Active dots — countries that voted */}
+        {/* Active dots, countries that voted */}
         <g>
           {data.map((d) => {
             const info = COUNTRIES[d.code];

@@ -32,7 +32,7 @@ export function ReceiptShareActions({
   };
 
   const xIntent = `https://twitter.com/intent/tweet?text=${encodeURIComponent(
-    `${title} — receipts attached. 🧾`,
+    `${title}, receipts attached. 🧾`,
   )}&url=${encodeURIComponent(shareUrl)}`;
 
   return (

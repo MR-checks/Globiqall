@@ -50,7 +50,7 @@ export default async function DailyPage() {
         <div className="rounded-md border border-dashed border-border p-10 text-center">
           <h3 className="text-[15px] font-medium">No Daily Call yet today.</h3>
           <p className="text-[13px] text-muted-foreground mt-1">
-            Check back soon — a fresh one drops every day.
+            Check back soon, a fresh one drops every day.
           </p>
           <Button asChild className="mt-4" variant="accent">
             <Link href="/predictions">Browse predictions</Link>

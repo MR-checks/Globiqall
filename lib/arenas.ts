@@ -89,7 +89,7 @@ export function arenaStatusLabel(status: string): string {
 
 /**
  * Spawn an Arena from a Drop the trend engine detected. Idempotent per drop.
- * Reputation-only; this just creates the container — predictions get attached
+ * Reputation-only; this just creates the container, predictions get attached
  * by curators or a follow-up generation step.
  */
 export async function spawnArenaFromDrop(opts: {

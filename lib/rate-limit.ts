@@ -1,7 +1,7 @@
 /**
  * In-memory sliding-window rate limiter, keyed by (action + key).
  * Survives HMR via globalThis. For multi-instance prod, swap implementation
- * with Redis/Upstash — the surface API is intentionally minimal.
+ * with Redis/Upstash, the surface API is intentionally minimal.
  */
 
 type Bucket = { times: number[] };
@@ -43,7 +43,7 @@ export function rateLimit(
   return { ok: true, remaining: opts.max - b.times.length, retryAfterSec: 0 };
 }
 
-// Action defaults — adjust freely.
+// Action defaults, adjust freely.
 export const LIMITS = {
   vote: { max: 20, windowSec: 60 },           // 20 votes per minute per user
   createPoll: { max: 5, windowSec: 3600 },    // 5 polls per hour per user
@@ -64,7 +64,7 @@ export function tooFastMessage(action: ActionKey, retryAfterSec: number): string
     action === "vote"
       ? "Voting too fast"
       : action === "createPoll"
-        ? "Slow down — too many polls"
+        ? "Slow down, too many polls"
         : action === "postComment"
           ? "Whoa, slow your comments"
           : action === "magicLink"

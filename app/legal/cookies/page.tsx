@@ -23,9 +23,9 @@ export default function CookiesPage() {
         GlobiQall uses the minimum browser storage needed to keep you signed in and remember your preferences. Everything else is opt-in.
       </p>
 
-      <Section title="Essential — always on">
+      <Section title="Essential, always on">
         <P>
-          These cannot be turned off — the site won't work without them.
+          These cannot be turned off, the site won't work without them.
         </P>
         <table className="mt-3 w-full text-[13px] border border-border rounded-md overflow-hidden">
           <thead className="bg-secondary/50 font-mono text-[10px] uppercase tracking-[0.08em] text-muted-foreground">
@@ -46,7 +46,7 @@ export default function CookiesPage() {
         </table>
       </Section>
 
-      <Section title="Analytics — opt-in">
+      <Section title="Analytics, opt-in">
         <P>
           We use these only if you click "Accept analytics" in the cookie banner. You can change your mind at any time.
         </P>
@@ -64,7 +64,7 @@ export default function CookiesPage() {
           </tbody>
         </table>
         <P className="mt-3">
-          Without analytics consent, we still capture <em>anonymous</em> server-side error stack traces via Sentry. These do not include your user ID, IP, or cookies — they're scrubbed before being sent.
+          Without analytics consent, we still capture <em>anonymous</em> server-side error stack traces via Sentry. These do not include your user ID, IP, or cookies, they're scrubbed before being sent.
         </P>
       </Section>
 
@@ -80,7 +80,7 @@ export default function CookiesPage() {
           Open the cookie banner via the link in the footer ("Cookie preferences"),
           or clear your browser storage to be re-prompted on next visit. You can
           also use your browser's built-in "Do Not Track" or block third-party
-          cookies — we respect both.
+          cookies, we respect both.
         </P>
       </Section>
     </article>

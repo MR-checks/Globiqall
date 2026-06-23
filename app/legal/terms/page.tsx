@@ -51,8 +51,8 @@ export default function TermsPage() {
         <ul className="mt-3 space-y-2 text-[14px] text-foreground/85">
           <Bullet>Attacks people or groups based on race, ethnicity, national origin, religion, gender, gender identity, sexual orientation, age, disability, or serious medical condition.</Bullet>
           <Bullet>Threatens, harasses, doxxes, or incites violence against any person.</Bullet>
-          <Bullet>Sexualizes minors or contains exploitative material — zero tolerance, immediate ban + reporting to authorities.</Bullet>
-          <Bullet>Misrepresents facts as questions ("Did X person commit a crime?"). Polls are for opinion, prediction, and debate — not for accusing real people of unproven acts.</Bullet>
+          <Bullet>Sexualizes minors or contains exploitative material, zero tolerance, immediate ban + reporting to authorities.</Bullet>
+          <Bullet>Misrepresents facts as questions ("Did X person commit a crime?"). Polls are for opinion, prediction, and debate, not for accusing real people of unproven acts.</Bullet>
           <Bullet>Spams, phishes, or distributes malware.</Bullet>
           <Bullet>Infringes someone else's copyright or trademark.</Bullet>
           <Bullet>Violates any law that applies to you.</Bullet>
@@ -71,7 +71,7 @@ export default function TermsPage() {
         <P>
           You own what you post. You give GlobiQall a worldwide, royalty-free,
           non-exclusive license to host, display, format, and distribute it on the
-          service. This license ends when you delete the content — except for
+          service. This license ends when you delete the content, except for
           aggregate vote counts and analytics, which remain anonymous and unattributed.
         </P>
         <P>
@@ -107,7 +107,7 @@ export default function TermsPage() {
           punitive damages, or for lost profits or data, arising from your use of
           the service. Our total liability is capped at one hundred US dollars
           ($100) or the amount you've paid us in the last twelve months, whichever
-          is greater — and you haven't paid us anything because the service is free.
+          is greater, and you haven't paid us anything because the service is free.
         </P>
       </Section>
 

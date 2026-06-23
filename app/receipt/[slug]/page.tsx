@@ -51,7 +51,7 @@ export async function generateMetadata({ params, searchParams }: PageProps): Pro
   if (!data) return { title: "Receipt" };
   const img = `${base}/api/og/receipt?poll=${encodeURIComponent(slug)}&u=${encodeURIComponent(u ?? "")}`;
   const title = `@${data.user.username} called it`;
-  const desc = `"${data.poll.title}" — called ${data.leadDays} days early. Verified by GlobiQall.`;
+  const desc = `"${data.poll.title}", called ${data.leadDays} days early. Verified by GlobiQall.`;
   return {
     title,
     description: desc,

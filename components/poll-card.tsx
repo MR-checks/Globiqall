@@ -142,7 +142,7 @@ export function PollCard({ poll }: { poll: PollCardData }) {
                   {lead.label}
                 </>
               ) : (
-                "—"
+                "-"
               )}
             </div>
             {runner && (

@@ -46,7 +46,7 @@ export default async function PredictionsPage() {
           </h1>
           <p className="text-muted-foreground mt-2 text-[14px] max-w-prose">
             Lock a call before the deadline. When reality lands, correct
-            predictors earn reputation — confident misses pay for it. Build a
+            predictors earn reputation, confident misses pay for it. Build a
             track record the world can see.
           </p>
         </div>

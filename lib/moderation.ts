@@ -6,7 +6,7 @@
  *  - Catch common bypasses (leet-speak, spaces, simple symbol substitutions).
  *  - Catch link spam (too many URLs in one short field).
  *  - Catch screaming (ALL-CAPS over a threshold).
- *  - Keep false positives near zero — the wordlist is intentionally narrow.
+ *  - Keep false positives near zero, the wordlist is intentionally narrow.
  *
  * This is a starter guard, not a complete moderation system. For production,
  * pair with a hosted classifier (e.g. Anthropic Claude moderation, Perspective)
@@ -14,7 +14,7 @@
  */
 
 // Narrow, well-known severe terms. Intentionally short.
-// (Censored in source for repo hygiene — actual letters in the regex chars.)
+// (Censored in source for repo hygiene, actual letters in the regex chars.)
 const BLOCK_PATTERNS: RegExp[] = [
   /\bn[\W_0o]*?i[\W_0o]*?g[\W_0o]*?g?[\W_0o]*?[ae3]r?\b/i,   // n-word
   /\bf[\W_0o]*?a[\W_0o]*?g[\W_0o]*?g?[\W_0o]*?o[\W_0o]*?t\b/i,  // f-slur
@@ -75,7 +75,7 @@ export function moderate(text: string, field: GuardField): GuardResult {
       if (upperRatio > 0.8) {
         return {
           ok: false,
-          error: "Easy on the caps — write it normally.",
+          error: "Easy on the caps, write it normally.",
         };
       }
     }

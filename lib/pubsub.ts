@@ -1,6 +1,6 @@
 // In-memory pub/sub for realtime poll updates.
 // Survives across HMR reloads in dev via globalThis. For multi-instance prod,
-// swap the channel layer for Redis pub/sub — interface stays the same.
+// swap the channel layer for Redis pub/sub, interface stays the same.
 
 type PollUpdate = {
   pollId: string;

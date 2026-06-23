@@ -45,7 +45,7 @@ export async function refreshDrops(): Promise<RefreshResult> {
     if (!r.title || r.title.length < 6) continue;
     const score = anticipationScore(r.title);
     if (score < MIN_SCORE) continue;
-    // Final content guard — catch slurs/spam even from news sources
+    // Final content guard, catch slurs/spam even from news sources
     const m = moderate(r.title, "title");
     if (!m.ok) continue;
     const fp = fingerprint(r.title);

@@ -25,7 +25,7 @@ export default async function ArenasPage() {
           The world is watching. Call it live.
         </h1>
         <p className="text-muted-foreground mt-2 text-[14px] max-w-prose">
-          Big moments — tournaments, elections, awards, launches — become live
+          Big moments, tournaments, elections, awards, launches, become live
           arenas. Stack predictions, climb the arena board, earn the rarest
           trophies on the platform.
         </p>

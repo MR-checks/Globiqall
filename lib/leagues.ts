@@ -1,7 +1,7 @@
 import { db } from "@/lib/db";
 
 /**
- * Weekly leagues — Duolingo-style competitive tiers that reset every week.
+ * Weekly leagues, Duolingo-style competitive tiers that reset every week.
  * Reputation-only: "points" are weekly activity, not money.
  *
  * v1 is threshold-based (earn X points this week → reach a tier) rather than
@@ -69,7 +69,7 @@ export async function addWeeklyPoints(userId: string, points: number): Promise<v
   });
   if (!u) return;
   if (u.weekKey !== wk) {
-    // New week — reset, then add.
+    // New week, reset, then add.
     await db.user.update({
       where: { id: userId },
       data: { weekKey: wk, weeklyPoints: points },
@@ -90,7 +90,7 @@ export type LeagueEntry = {
   tier: LeagueTier;
 };
 
-/** This week's league table — top earners, current week only. */
+/** This week's league table, top earners, current week only. */
 export async function weeklyLeaderboard(limit = 50): Promise<LeagueEntry[]> {
   const wk = currentWeekKey();
   const users = await db.user.findMany({

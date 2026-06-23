@@ -13,7 +13,7 @@ const ACCENT = "#4d82f7";
 const GREEN = "#1ec88a";
 
 /**
- * The Receipt — a verifiable "I called it" share card (1200×630 PNG).
+ * The Receipt, a verifiable "I called it" share card (1200×630 PNG).
  * Query: ?poll=<slug>&u=<username>
  * Renders proof that <user> correctly called <poll> N days before it resolved.
  */

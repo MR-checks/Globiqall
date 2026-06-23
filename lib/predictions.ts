@@ -2,7 +2,7 @@ import { db } from "@/lib/db";
 import { addWeeklyPoints } from "@/lib/leagues";
 
 /**
- * Prediction engine — reputation-only by design.
+ * Prediction engine, reputation-only by design.
  *
  * IMPORTANT (money-separability): the ONLY stake here is reputation (an integer
  * score). There is no currency, wallet, or payout. A future regulated real-money
@@ -13,7 +13,7 @@ import { addWeeklyPoints } from "@/lib/leagues";
 export type PredictionState =
   | "NOT_PREDICTION" // a debate poll
   | "OPEN" // accepting calls (and switches)
-  | "LOCKED" // lockAt passed, awaiting resolution — calls are final
+  | "LOCKED" // lockAt passed, awaiting resolution, calls are final
   | "RESOLVED"; // outcome set
 
 type PollLike = {
@@ -61,7 +61,7 @@ const WRONG_PENALTY_PER_CONVICTION = 2; // gentle sting for a wrong, confident c
 export function scorePick(opts: {
   correct: boolean;
   conviction: number;
-  winnerPickShare: number; // 0..1 — fraction of all voters who picked the winner
+  winnerPickShare: number; // 0..1, fraction of all voters who picked the winner
 }): number {
   const conv = Math.min(3, Math.max(1, opts.conviction || 1));
   if (opts.correct) {
@@ -203,7 +203,7 @@ async function notifyOnResolution(args: {
       await notify({
         userId: vu.userId,
         type: "PREDICTION_RESOLVED",
-        title: `You called it — ${truncate(args.pollTitle)}`,
+        title: `You called it, ${truncate(args.pollTitle)}`,
         body: `${tier.name} call · +${vu.repAwarded} rep. Share your receipt.`,
         href,
         pollId: args.pollId,
@@ -213,7 +213,7 @@ async function notifyOnResolution(args: {
       await notify({
         userId: vu.userId,
         type: "PREDICTION_RESOLVED",
-        title: `Resolved — ${truncate(args.pollTitle)}`,
+        title: `Resolved, ${truncate(args.pollTitle)}`,
         body: `The answer: ${args.winnerLabel}. You'll get the next one.`,
         href,
         pollId: args.pollId,
@@ -248,7 +248,7 @@ async function notifyOnResolution(args: {
       await notify({
         userId: p.id,
         type: "NEMESIS",
-        title: `${handle} called it — you didn't`,
+        title: `${handle} called it, you didn't`,
         body: `Your nemesis nailed "${truncate(args.pollTitle)}". Get them back.`,
         href,
         pollId: args.pollId,
@@ -259,7 +259,7 @@ async function notifyOnResolution(args: {
         userId: p.id,
         type: "NEMESIS",
         title: `You beat ${handle}`,
-        body: `You called "${truncate(args.pollTitle)}" — your nemesis missed it.`,
+        body: `You called "${truncate(args.pollTitle)}", your nemesis missed it.`,
         href,
         pollId: args.pollId,
         actorId: nemId,
@@ -285,7 +285,7 @@ const predCardInclude = {
   options: { orderBy: { position: "asc" as const } },
 };
 
-/** Open predictions, soonest-to-lock first — the "call these now" set. */
+/** Open predictions, soonest-to-lock first, the "call these now" set. */
 export async function listOpenPredictions(limit = 30) {
   const now = new Date();
   return db.poll.findMany({

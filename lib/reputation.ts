@@ -46,7 +46,7 @@ export async function applyVoteAccrual(userId: string): Promise<{
   } else {
     const gap = daysBetween(user.lastVoteOn, now);
     if (gap === 0) {
-      // Already voted today — no streak change, no extra rep beyond per-vote.
+      // Already voted today, no streak change, no extra rep beyond per-vote.
       // (per-vote rep is still applied for the new vote action.)
     } else if (gap === 1) {
       nextStreak = user.streakDays + 1;

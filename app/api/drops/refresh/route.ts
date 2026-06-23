@@ -3,7 +3,7 @@ import { refreshDrops } from "@/lib/drops/refresh";
 
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
-// Generous budget — fetching ~16 endpoints + DB writes
+// Generous budget, fetching ~16 endpoints + DB writes
 export const maxDuration = 60;
 
 /**

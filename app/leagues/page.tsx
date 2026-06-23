@@ -50,8 +50,8 @@ export default async function LeaguesPage() {
           Climb the week.
         </h1>
         <p className="text-muted-foreground mt-2 text-[14px] max-w-prose">
-          Every point you earn — voting, opening polls, and especially nailing
-          predictions — counts toward this week's league. Reach the next tier
+          Every point you earn, voting, opening polls, and especially nailing
+          predictions, counts toward this week's league. Reach the next tier
           before the week resets.
         </p>
       </header>

@@ -5,7 +5,7 @@ import { db } from "@/lib/db";
  * and surface: who they align with (allies), who they clash with (nemesis),
  * how contrarian they are, and a derived identity name.
  *
- * No schema, no clustering job — computed on read from existing votes. Cheap
+ * No schema, no clustering job, computed on read from existing votes. Cheap
  * enough at launch scale; swap for a periodic precompute when votes get huge.
  */
 
@@ -123,7 +123,7 @@ export async function computeAlignment(userId: string): Promise<Alignment | null
 }
 
 /**
- * Lightweight nemesis lookup — the user you most consistently disagree with.
+ * Lightweight nemesis lookup, the user you most consistently disagree with.
  * Used by the sweep + resolution loop to persist User.nemesisId.
  */
 export async function computeNemesisId(userId: string): Promise<string | null> {
@@ -196,9 +196,9 @@ async function deriveTribe(
     contrarianIndex >= 55 ? "Contrarian" : contrarianIndex <= 38 ? "Consensus" : "Independent";
 
   const blurbByStance: Record<string, string> = {
-    Contrarian: "You back the minority side more often than not — a true outlier.",
-    Consensus: "You ride with the crowd — you read the room before most.",
-    Independent: "You split your calls — sometimes crowd, sometimes outlier.",
+    Contrarian: "You back the minority side more often than not, a true outlier.",
+    Consensus: "You ride with the crowd, you read the room before most.",
+    Independent: "You split your calls, sometimes crowd, sometimes outlier.",
   };
 
   return {

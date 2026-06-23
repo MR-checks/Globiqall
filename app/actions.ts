@@ -194,7 +194,7 @@ export async function voteAction(formData: FormData) {
     return { ok: false as const, error: tooFastMessage("vote", rl.retryAfterSec) };
   }
 
-  // Visibility check — never let someone vote on a private poll they can't see.
+  // Visibility check, never let someone vote on a private poll they can't see.
   const access = await pollAccessCheck({
     pollId,
     viewerId: session.user.id,
@@ -204,7 +204,7 @@ export async function voteAction(formData: FormData) {
     return { ok: false as const, error: "Poll not found" };
   }
 
-  // Detect country from edge headers (Vercel/Cloudflare) — falls back to null in plain Node.
+  // Detect country from edge headers (Vercel/Cloudflare), falls back to null in plain Node.
   const country = await detectCountry();
 
   try {

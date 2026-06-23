@@ -8,7 +8,7 @@ import { cn, formatRelative } from "@/lib/utils";
 
 export const metadata = {
   title: "Drops · coming up",
-  description: "Things about to drop — vote on them as they happen.",
+  description: "Things about to drop, vote on them as they happen.",
 };
 
 export const revalidate = 300; // 5 min cache for the page
@@ -60,7 +60,7 @@ export default async function DropsPage({ searchParams }: PageProps) {
           What's about to happen.
         </h1>
         <p className="text-muted-foreground mt-2 text-[14px] max-w-prose">
-          Live signals from the open web — product drops, launches, leaks,
+          Live signals from the open web, product drops, launches, leaks,
           upcoming matches. Tap to open a poll about any of them.
         </p>
       </header>

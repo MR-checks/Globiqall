@@ -108,7 +108,7 @@ export default async function ArenaPage({ params }: PageProps) {
           </h2>
           {leaders.length === 0 ? (
             <p className="text-[12px] text-muted-foreground">
-              No scores yet — be the first to call one right.
+              No scores yet, be the first to call one right.
             </p>
           ) : (
             <ol className="rounded-md border border-border bg-card overflow-hidden divide-y divide-border">

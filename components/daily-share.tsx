@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button";
 
 /**
  * Wordle-style daily share. Shows the participation streak and copies a
- * spoiler-free brag block (never reveals your pick — just that you played).
+ * spoiler-free brag block (never reveals your pick, just that you played).
  */
 export function DailyShare({
   dateLabel,
@@ -31,7 +31,7 @@ export function DailyShare({
         await navigator.share({ text: shareText });
       } else {
         await navigator.clipboard.writeText(shareText);
-        toast.success("Copied — go flex your streak");
+        toast.success("Copied, go flex your streak");
       }
     } catch {
       /* cancelled */
@@ -51,7 +51,7 @@ export function DailyShare({
         {freezes > 0 && (
           <span
             className="inline-flex items-center gap-1 font-mono text-[11px] tabular-nums text-accent"
-            title="Streak freezes — protect your streak if you miss a day"
+            title="Streak freezes, protect your streak if you miss a day"
           >
             <Snowflake className="h-3.5 w-3.5" />
             {freezes}

@@ -1,7 +1,7 @@
 /**
  * Free signal collectors for the Drops feed.
  * All sources are public, no API keys, no payment.
- * Each fetcher returns a flat list of RawDrop and is allowed to fail silently —
+ * Each fetcher returns a flat list of RawDrop and is allowed to fail silently,
  * the orchestrator will skip a failed source and continue.
  */
 
@@ -139,7 +139,7 @@ export async function fetchGoogleNews(): Promise<RawDrop[]> {
       const xml = await fetchText(url);
       if (!xml) return;
       const items = parseFeed(xml, "gnews");
-      // Google News titles include " - Source" suffixes — strip:
+      // Google News titles include " - Source" suffixes, strip:
       for (const it of items) {
         out.push({
           ...it,
@@ -169,7 +169,7 @@ function cleanTitle(s: string): string {
 /**
  * Parser that handles both RSS 2.0 (<item>) and Atom (<entry>) feeds.
  * Extracts title, primary link, and publication date.
- * Not a full XML parser — intentionally lenient for the small feeds we read.
+ * Not a full XML parser, intentionally lenient for the small feeds we read.
  */
 function parseFeed(xml: string, sourceLabel: string): RawDrop[] {
   const out: RawDrop[] = [];

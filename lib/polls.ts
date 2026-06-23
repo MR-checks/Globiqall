@@ -116,7 +116,7 @@ export async function castVote({
   if (poll.closesAt && poll.closesAt < new Date()) {
     throw new Error("Poll has expired");
   }
-  // Prediction lock: once lockAt passes, the call is final — no new picks, no switching.
+  // Prediction lock: once lockAt passes, the call is final, no new picks, no switching.
   if (poll.mode === "PREDICTION" && poll.lockAt && poll.lockAt < new Date()) {
     throw new Error("Predictions are locked");
   }

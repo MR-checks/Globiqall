@@ -1,7 +1,8 @@
 import Link from "next/link";
-import { Lock, Target, TrendingUp } from "lucide-react";
+import { TrendingUp } from "lucide-react";
 import { categoryAccentStyle, categoryDotStyle } from "@/lib/category-colors";
 import { pollIcon } from "@/lib/poll-visuals";
+import { PollStatusBadge } from "@/components/poll-status-badge";
 import { cn, formatCount, formatCountdown, formatRelative, pct } from "@/lib/utils";
 
 type PollCardData = {
@@ -54,6 +55,7 @@ export function PollCard({ poll }: { poll: PollCardData }) {
   const runner = sorted.find((o) => o.id !== lead?.id) ?? sorted[1];
   const leadPct = lead ? pct(lead.voteCount, total) : 0;
   const icon = pollIcon(poll);
+  const isNew = Date.now() - poll.createdAt.getTime() < 12 * 3_600_000;
 
   return (
     <Link
@@ -67,8 +69,15 @@ export function PollCard({ poll }: { poll: PollCardData }) {
         aria-hidden
       />
 
+      {/* Status ribbon, top-right */}
+      <PollStatusBadge
+        state={predState}
+        isNew={isNew && !isPrediction}
+        className="absolute top-2.5 right-2.5 z-10"
+      />
+
       {/* Meta row */}
-      <div className="flex items-center justify-between px-4 pt-3 text-[10px] font-mono uppercase tracking-[0.08em] text-muted-foreground">
+      <div className="flex items-center justify-between px-4 pt-3 pr-20 text-[10px] font-mono uppercase tracking-[0.08em] text-muted-foreground">
         <div className="flex items-center gap-3 min-w-0">
           {poll.category && (
             <span className="inline-flex items-center gap-1.5 min-w-0">
@@ -78,21 +87,6 @@ export function PollCard({ poll }: { poll: PollCardData }) {
                 aria-hidden
               />
               <span className="truncate">{poll.category.name}</span>
-            </span>
-          )}
-          {predState === "OPEN" && (
-            <span className="inline-flex items-center gap-1 text-accent">
-              <Target className="h-3 w-3" /> open call
-            </span>
-          )}
-          {predState === "LOCKED" && (
-            <span className="inline-flex items-center gap-1 text-warning">
-              <Lock className="h-3 w-3" /> locked
-            </span>
-          )}
-          {predState === "RESOLVED" && (
-            <span className="inline-flex items-center gap-1 text-positive">
-              <Target className="h-3 w-3" /> resolved
             </span>
           )}
           {!isPrediction && poll.type === "BINARY" && <span>· vs</span>}
@@ -105,9 +99,9 @@ export function PollCard({ poll }: { poll: PollCardData }) {
             </span>
           )}
         </div>
-        <span>
+        <span className="shrink-0">
           {predState === "OPEN" && poll.lockAt
-            ? `locks ${formatCountdown(poll.lockAt)}`
+            ? `🔓 locks ${formatCountdown(poll.lockAt)}`
             : formatRelative(poll.createdAt)}
         </span>
       </div>

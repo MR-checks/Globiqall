@@ -3,6 +3,7 @@ import { TrendingUp } from "lucide-react";
 import { categoryAccentStyle, categoryDotStyle } from "@/lib/category-colors";
 import { pollIcon } from "@/lib/poll-visuals";
 import { PollStatusBadge } from "@/components/poll-status-badge";
+import { avatarUrl } from "@/lib/avatar";
 import { cn, formatCount, formatCountdown, formatRelative, pct } from "@/lib/utils";
 
 type PollCardData = {
@@ -167,11 +168,21 @@ export function PollCard({ poll }: { poll: PollCardData }) {
           <span className="tabular-nums">
             {formatCount(total)} {total === 1 ? "vote" : "votes"}
           </span>
-          <span className="truncate ml-2">
+          <span className="truncate ml-2 inline-flex items-center gap-1.5">
             {poll.author?.name ? (
               <>
-                <span className="text-muted-foreground/70">by</span>{" "}
-                <span className="text-foreground/80 normal-case tracking-tight-2">
+                <span className="text-muted-foreground/70">by</span>
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src={avatarUrl({
+                    image: poll.author.image,
+                    seed: poll.author.username || poll.author.name,
+                  })}
+                  alt=""
+                  aria-hidden
+                  className="h-4 w-4 rounded-full bg-secondary object-cover shrink-0"
+                />
+                <span className="text-foreground/80 normal-case tracking-tight-2 truncate">
                   {poll.author.username
                     ? `@${poll.author.username}`
                     : poll.author.name}

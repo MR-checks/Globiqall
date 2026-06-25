@@ -136,6 +136,7 @@ model Poll {
   slug         String    @unique
   title        String
   description  String?
+  imageUrl     String? // optional small icon image (e.g. carried from a Drop)
   // BINARY (versus), MULTI (3+ options)
   type         String    @default("MULTI")
   // DEBATE (subjective, never resolves) | PREDICTION (resolves vs reality)
@@ -283,6 +284,7 @@ model Drop {
   title       String
   source      String                     // "reddit/r/gadgets" | "hn" | "producthunt" | "gnews"
   sourceUrl   String
+  imageUrl    String?                    // thumbnail from the feed, if any (hotlinked)
   category    String?                    // guessed slug; matches Category.slug where possible
   score       Int                        // anticipation score; higher = stronger drop signal
   expectedAt  DateTime?                  // parsed date if we extracted one

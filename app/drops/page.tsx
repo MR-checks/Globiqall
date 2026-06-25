@@ -4,6 +4,7 @@ import { listDrops, type DropSort } from "@/lib/drops/queries";
 import { db } from "@/lib/db";
 import { categoryDotStyle } from "@/lib/category-colors";
 import { SortTabs } from "@/components/sort-tabs";
+import { DropThumb } from "@/components/drop-thumb";
 import { cn, formatRelative } from "@/lib/utils";
 
 export const metadata = {
@@ -154,6 +155,7 @@ function DropTile({
     category: string | null;
     score: number;
     fetchedAt: Date;
+    imageUrl: string | null;
   };
 }) {
   const params = new URLSearchParams();
@@ -183,10 +185,11 @@ function DropTile({
         href={drop.sourceUrl}
         target="_blank"
         rel="noopener noreferrer nofollow"
-        className="block px-4 pb-3 flex-1 hover:text-foreground"
+        className="flex gap-3 px-4 pb-3 flex-1 hover:text-foreground"
         title={drop.title}
       >
-        <p className="text-[14px] leading-snug tracking-tight-2 line-clamp-4 text-balance">
+        <DropThumb imageUrl={drop.imageUrl} title={drop.title} />
+        <p className="text-[14px] leading-snug tracking-tight-2 line-clamp-3 text-balance">
           {drop.title}
         </p>
       </a>

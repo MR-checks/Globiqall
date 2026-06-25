@@ -4,6 +4,7 @@ import { categoryAccentStyle, categoryDotStyle } from "@/lib/category-colors";
 import { pollIcon } from "@/lib/poll-visuals";
 import { PollStatusBadge } from "@/components/poll-status-badge";
 import { ScoreBar } from "@/components/score-bar";
+import { DropThumb } from "@/components/drop-thumb";
 import { avatarUrl } from "@/lib/avatar";
 import { cn, formatCount, formatCountdown, formatRelative, pct } from "@/lib/utils";
 
@@ -12,6 +13,7 @@ type PollCardData = {
   slug: string;
   title: string;
   description: string | null;
+  imageUrl?: string | null;
   type: string;
   visibility: string;
   totalVotes: number;
@@ -111,12 +113,12 @@ export function PollCard({ poll }: { poll: PollCardData }) {
       {/* Body */}
       <div className="px-4 pt-3 pb-4 flex-1 flex flex-col">
         <div className="flex items-start gap-2.5">
-          <span
-            className="mt-0.5 grid h-7 w-7 shrink-0 place-items-center rounded-md border border-border bg-secondary/40 text-[15px] leading-none"
-            aria-hidden
-          >
-            {icon}
-          </span>
+          <DropThumb
+            imageUrl={poll.imageUrl}
+            title={poll.title}
+            fallback={icon}
+            className="mt-0.5 h-7 w-7 text-[15px]"
+          />
           <h3 className="text-[15px] font-medium leading-snug text-balance tracking-tight-2 group-hover:text-foreground transition-colors">
             {poll.title}
           </h3>

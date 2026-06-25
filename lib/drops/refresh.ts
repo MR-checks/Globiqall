@@ -77,6 +77,7 @@ export async function refreshDrops(): Promise<RefreshResult> {
         title: w.title,
         source: w.source,
         sourceUrl: w.sourceUrl,
+        imageUrl: w.imageUrl ?? null,
         category: w.category,
         score: w.score,
         expectedAt: w.publishedAt ?? null,
@@ -86,6 +87,7 @@ export async function refreshDrops(): Promise<RefreshResult> {
         // Refresh expiry + score if same drop reappears (still trending)
         expiresAt,
         score: Math.max(w.score, 0), // never lower; could choose max(existing, new)
+        ...(w.imageUrl ? { imageUrl: w.imageUrl } : {}),
       },
       select: { fetchedAt: true },
     });

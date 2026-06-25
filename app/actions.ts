@@ -130,11 +130,26 @@ export async function createPoll(formData: FormData) {
 
   await applyPollAccrual(session.user.id).catch(() => null);
 
+  // If kicked off from a Drop, carry its thumbnail onto the poll and remember
+  // to link it back below.
+  const dropId =
+    typeof formData.get("dropId") === "string"
+      ? (formData.get("dropId") as string)
+      : "";
+  const dropImageUrl = dropId
+    ? (
+        await db.drop
+          .findUnique({ where: { id: dropId }, select: { imageUrl: true } })
+          .catch(() => null)
+      )?.imageUrl ?? null
+    : null;
+
   const poll = await db.poll.create({
     data: {
       slug,
       title: data.title,
       description: data.description || null,
+      imageUrl: dropImageUrl,
       type: data.type,
       mode: data.mode,
       visibility: data.visibility,
@@ -156,8 +171,7 @@ export async function createPoll(formData: FormData) {
   });
 
   // If this poll was kicked off from a Drop, link it back for attribution + analytics.
-  const dropId = formData.get("dropId");
-  if (typeof dropId === "string" && dropId) {
+  if (dropId) {
     await db.drop
       .update({
         where: { id: dropId },

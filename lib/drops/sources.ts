@@ -10,6 +10,7 @@ export type RawDrop = {
   source: string;
   sourceUrl: string;
   publishedAt?: Date;
+  imageUrl?: string;
 };
 
 // Real-browser-looking UA so feeds we hit don't 403 us out of the gate.
@@ -191,9 +192,34 @@ function parseFeed(xml: string, sourceLabel: string): RawDrop[] {
       source: sourceLabel,
       sourceUrl: link.trim(),
       publishedAt: pub ? new Date(pub) : undefined,
+      imageUrl: pickImage(block),
     });
   }
   return out;
+}
+
+/**
+ * Pull a thumbnail the feed already ships (media:thumbnail / media:content /
+ * enclosure / an <img> in the HTML content). No extra network requests, so it
+ * stays cheap. Returns undefined when the feed has no usable image.
+ */
+function pickImage(block: string): string | undefined {
+  const patterns = [
+    /<media:thumbnail[^>]*\burl=["']([^"']+)["']/i,
+    /<media:content[^>]*\burl=["']([^"']+)["']/i,
+    /<enclosure[^>]*\burl=["']([^"']+)["'][^>]*type=["']image/i,
+    /<enclosure[^>]*type=["']image[^>]*\burl=["']([^"']+)["']/i,
+    /<img[^>]+src=["']([^"']+)["']/i,
+  ];
+  for (const re of patterns) {
+    const m = block.match(re);
+    if (!m) continue;
+    const url = m[1].replace(/&amp;/g, "&").trim();
+    if (!/^https:\/\//i.test(url)) continue; // https only
+    if (/spacer|pixel|1x1|blank\.|\.gif($|\?)/i.test(url)) continue; // skip trackers
+    return url;
+  }
+  return undefined;
 }
 
 function pickTag(block: string, tag: string): string | null {

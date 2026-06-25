@@ -75,6 +75,20 @@ export async function GET(req: Request) {
     /* keep logoSrc empty -> inline svg fallback below */
   }
 
+  // Tier medal (when this is a verified, scored call).
+  let medalSrc = "";
+  if (tierName) {
+    try {
+      const origin = new URL(req.url).origin;
+      const buf = await fetch(`${origin}/medals/${tierName.toLowerCase()}.png`).then((r) =>
+        r.arrayBuffer(),
+      );
+      medalSrc = `data:image/png;base64,${Buffer.from(buf).toString("base64")}`;
+    } catch {
+      /* no medal */
+    }
+  }
+
   return new ImageResponse(
     (
       <div
@@ -86,8 +100,18 @@ export async function GET(req: Request) {
           backgroundColor: BG,
           padding: "64px",
           fontFamily: "sans-serif",
+          position: "relative",
         }}
       >
+        {medalSrc && (
+          // eslint-disable-next-line @next/next/no-img-element
+          <img
+            src={medalSrc}
+            width="208"
+            height="264"
+            style={{ position: "absolute", top: "168px", right: "72px" }}
+          />
+        )}
         {/* top bar */}
         <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
           <div style={{ display: "flex", alignItems: "center", gap: "14px" }}>
@@ -149,7 +173,7 @@ export async function GET(req: Request) {
               color: TEXT,
               fontWeight: 600,
               lineHeight: 1.1,
-              maxWidth: "1000px",
+              maxWidth: medalSrc ? "720px" : "1000px",
             }}
           >
             {title}

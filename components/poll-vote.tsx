@@ -7,6 +7,7 @@ import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { LiveCounter } from "@/components/live-counter";
 import { Countdown } from "@/components/countdown";
+import { Medal } from "@/components/medal";
 import { ReceiptLinkButton } from "@/components/receipt-share-button";
 import { cn, formatCount, pct } from "@/lib/utils";
 import { voteAction } from "@/app/actions";
@@ -242,31 +243,36 @@ export function PollVote({
               : "border-destructive/40 bg-destructive/10",
           )}
         >
-          <div className="flex items-center justify-between">
-            <span
-              className={cn(
-                "inline-flex items-center gap-2 font-mono text-[11px] uppercase tracking-[0.12em]",
-                userCorrect ? "text-positive" : "text-destructive",
-              )}
-            >
-              {userCorrect ? <Trophy className="h-3.5 w-3.5" /> : <X className="h-3.5 w-3.5" />}
-              {userCorrect
-                ? userTrophyTier
-                  ? `${userTrophyTier} call`
-                  : "You called it"
-                : "You missed this one"}
-            </span>
-            {typeof userRepAwarded === "number" && (
+          <div className="flex items-center gap-3">
+            {userCorrect && userTrophyTier && (
+              <Medal tier={userTrophyTier} size={46} className="shrink-0" />
+            )}
+            <div className="flex flex-1 items-center justify-between">
               <span
                 className={cn(
-                  "font-mono tabular-nums text-[14px] font-medium",
-                  userRepAwarded >= 0 ? "text-positive" : "text-destructive",
+                  "inline-flex items-center gap-2 font-mono text-[11px] uppercase tracking-[0.12em]",
+                  userCorrect ? "text-positive" : "text-destructive",
                 )}
               >
-                {userRepAwarded >= 0 ? "+" : ""}
-                {userRepAwarded} rep
+                {userCorrect ? <Trophy className="h-3.5 w-3.5" /> : <X className="h-3.5 w-3.5" />}
+                {userCorrect
+                  ? userTrophyTier
+                    ? `${userTrophyTier} call`
+                    : "You called it"
+                  : "You missed this one"}
               </span>
-            )}
+              {typeof userRepAwarded === "number" && (
+                <span
+                  className={cn(
+                    "font-mono tabular-nums text-[14px] font-medium",
+                    userRepAwarded >= 0 ? "text-positive" : "text-destructive",
+                  )}
+                >
+                  {userRepAwarded >= 0 ? "+" : ""}
+                  {userRepAwarded} rep
+                </span>
+              )}
+            </div>
           </div>
           {userCorrect && slug && viewerUsername && (
             <div className="mt-3">

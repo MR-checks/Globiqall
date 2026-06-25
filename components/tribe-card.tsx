@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { Swords, Users } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { avatarUrl } from "@/lib/avatar";
 import type { Alignment, Ally } from "@/lib/tribes";
 
 export function TribeCard({ alignment, isMe }: { alignment: Alignment; isMe: boolean }) {
@@ -88,7 +89,7 @@ function AllyRow({ ally, accent }: { ally: Ally; accent: "positive" | "destructi
   const inner = (
     <div className="flex items-center gap-2.5">
       <Avatar className="h-7 w-7 border border-border">
-        {ally.image && <AvatarImage src={ally.image} alt="" />}
+        <AvatarImage src={avatarUrl({ image: ally.image, seed: ally.username ?? ally.name })} alt="" />
         <AvatarFallback className="text-[10px]">{initial}</AvatarFallback>
       </Avatar>
       <div className="min-w-0 flex-1">

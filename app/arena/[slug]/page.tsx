@@ -5,6 +5,7 @@ import { db } from "@/lib/db";
 import { getArenaBySlug, arenaLeaderboard, arenaStatusLabel } from "@/lib/arenas";
 import { PollCard } from "@/components/poll-card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { avatarUrl } from "@/lib/avatar";
 import { categoryAccentStyle, categoryDotStyle } from "@/lib/category-colors";
 import { formatCountdown, formatRelative } from "@/lib/utils";
 import type { Metadata } from "next";
@@ -118,7 +119,7 @@ export default async function ArenaPage({ params }: PageProps) {
                     {String(i + 1).padStart(2, "0")}
                   </span>
                   <Avatar className="h-6 w-6 border border-border">
-                    {l.image && <AvatarImage src={l.image} alt="" />}
+                    <AvatarImage src={avatarUrl({ image: l.image, seed: l.username ?? l.name })} alt="" />
                     <AvatarFallback className="text-[9px]">
                       {(l.name?.[0] ?? l.username?.[0] ?? "?").toUpperCase()}
                     </AvatarFallback>

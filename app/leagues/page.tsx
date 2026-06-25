@@ -4,6 +4,8 @@ import { auth } from "@/auth";
 import { db } from "@/lib/db";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
+import { Medal } from "@/components/medal";
+import { avatarUrl } from "@/lib/avatar";
 import {
   LEAGUE_TIERS,
   currentWeekKey,
@@ -105,10 +107,11 @@ export default async function LeaguesPage() {
               key={t.key}
               className="rounded-md border border-border bg-card p-3 text-center"
             >
-              <div className={`text-[14px] font-medium tracking-tight-2 ${TONE[t.tone]}`}>
+              <Medal tier={t.key} size={48} className="mx-auto" />
+              <div className={`text-[14px] font-medium tracking-tight-2 mt-1 ${TONE[t.tone]}`}>
                 {t.name}
               </div>
-              <div className="font-mono text-[10px] uppercase tracking-[0.1em] text-muted-foreground mt-1">
+              <div className="font-mono text-[10px] uppercase tracking-[0.1em] text-muted-foreground">
                 {t.min}+ pts
               </div>
             </div>
@@ -138,7 +141,7 @@ export default async function LeaguesPage() {
                     {String(i + 1).padStart(2, "0")}
                   </span>
                   <Avatar className="h-7 w-7 border border-border">
-                    {e.image && <AvatarImage src={e.image} alt="" />}
+                    <AvatarImage src={avatarUrl({ image: e.image, seed: e.username ?? e.name })} alt="" />
                     <AvatarFallback className="text-[10px]">
                       {(e.name?.[0] ?? e.username?.[0] ?? "?").toUpperCase()}
                     </AvatarFallback>

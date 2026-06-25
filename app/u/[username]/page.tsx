@@ -12,6 +12,7 @@ import { deriveBadges } from "@/lib/reputation";
 import { predictionAccuracy } from "@/lib/predictions";
 import { computeAlignment } from "@/lib/tribes";
 import { computeTrophyCase } from "@/lib/trophies";
+import { Medal } from "@/components/medal";
 import { effectiveWeeklyPoints, tierForPoints } from "@/lib/leagues";
 import { TribeCard } from "@/components/tribe-card";
 import { formatCount, formatRelative } from "@/lib/utils";
@@ -214,8 +215,9 @@ export default async function ProfilePage({ params }: PageProps) {
                 key={t.key}
                 className="rounded-md border border-border bg-card p-3 text-center"
               >
+                <Medal tier={t.key} size={58} className="mx-auto" />
                 <div
-                  className={`font-mono tabular-nums text-[22px] font-medium tracking-tight-2 ${
+                  className={`font-mono tabular-nums text-[20px] font-medium tracking-tight-2 mt-1 ${
                     t.tone === "accent"
                       ? "text-accent"
                       : t.tone === "positive"
@@ -227,7 +229,7 @@ export default async function ProfilePage({ params }: PageProps) {
                 >
                   {t.count}×
                 </div>
-                <div className="font-mono text-[10px] uppercase tracking-[0.1em] text-muted-foreground mt-1">
+                <div className="font-mono text-[10px] uppercase tracking-[0.1em] text-muted-foreground">
                   {t.name}
                 </div>
               </div>

@@ -3,6 +3,7 @@ import Link from "next/link";
 import { Calendar, ExternalLink, Globe2, Lock, Target } from "lucide-react";
 import { auth } from "@/auth";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { avatarUrl } from "@/lib/avatar";
 import { PollVote } from "@/components/poll-vote";
 import { PollComments } from "@/components/poll-comments";
 import { PollCountryBreakdown } from "@/components/poll-country-breakdown";
@@ -153,7 +154,7 @@ export default async function PollDetailPage({ params, searchParams }: PageProps
         <span className="inline-flex items-center gap-2">
           <Avatar className="h-5 w-5">
             {poll.author.image && (
-              <AvatarImage src={poll.author.image} alt={poll.author.name ?? ""} />
+              <AvatarImage src={avatarUrl({ image: poll.author.image, seed: poll.author.username ?? poll.author.name })} alt={poll.author.name ?? ""} />
             )}
             <AvatarFallback className="text-[9px]">
               {(poll.author.name ?? "G")[0].toUpperCase()}

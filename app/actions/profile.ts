@@ -31,6 +31,7 @@ export async function updateProfile(formData: FormData) {
   const username = String(formData.get("username") ?? "");
   const bio = String(formData.get("bio") ?? "");
   const name = String(formData.get("name") ?? "");
+  const image = String(formData.get("image") ?? "").trim();
 
   const u = usernameSchema.safeParse(username);
   if (!u.success) {
@@ -56,8 +57,17 @@ export async function updateProfile(formData: FormData) {
   // Uniqueness check (only if changed)
   const me = await db.user.findUnique({
     where: { id: session.user.id },
-    select: { username: true },
+    select: { username: true, image: true },
   });
+
+  // Only accept a generative (DiceBear) avatar or the user's existing photo.
+  // No arbitrary image URLs, so there is nothing to moderate or store.
+  const isGenerative = /^https:\/\/api\.dicebear\.com\//.test(image);
+  const finalImage = !image
+    ? null
+    : isGenerative || image === me?.image
+      ? image
+      : me?.image ?? null;
   if (me?.username !== u.data) {
     const taken = await db.user.findUnique({ where: { username: u.data } });
     if (taken) return { ok: false as const, error: "That username is taken" };
@@ -69,6 +79,7 @@ export async function updateProfile(formData: FormData) {
       username: u.data,
       bio: b.data || null,
       name: n.data || null,
+      image: finalImage,
     },
   });
   revalidatePath(`/u/${u.data}`);

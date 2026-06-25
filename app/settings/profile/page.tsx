@@ -11,7 +11,7 @@ export default async function ProfileSettingsPage() {
 
   const user = await db.user.findUnique({
     where: { id: session.user.id },
-    select: { name: true, username: true, bio: true, email: true },
+    select: { id: true, name: true, username: true, bio: true, email: true, image: true },
   });
   if (!user) redirect("/sign-in");
 
@@ -33,7 +33,9 @@ export default async function ProfileSettingsPage() {
             name: user.name ?? "",
             username: user.username ?? "",
             bio: user.bio ?? "",
+            image: user.image,
           }}
+          seed={user.username || user.id}
           email={user.email ?? ""}
         />
       </div>

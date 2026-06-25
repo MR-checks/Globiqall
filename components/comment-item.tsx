@@ -5,6 +5,7 @@ import Link from "next/link";
 import { CornerDownRight, MoreHorizontal, Pencil, Trash2, X } from "lucide-react";
 import { toast } from "sonner";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { avatarUrl } from "@/lib/avatar";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { CommentComposer } from "@/components/comment-composer";
@@ -106,9 +107,10 @@ export function CommentItem({
           tabIndex={comment.author.username ? 0 : -1}
         >
           <Avatar className="h-7 w-7 border border-border">
-            {comment.author.image && (
-              <AvatarImage src={comment.author.image} alt={comment.author.name ?? ""} />
-            )}
+            <AvatarImage
+              src={avatarUrl({ image: comment.author.image, seed: comment.author.username ?? comment.author.name })}
+              alt={comment.author.name ?? ""}
+            />
             <AvatarFallback className="text-[10px]">{initial}</AvatarFallback>
           </Avatar>
         </Link>

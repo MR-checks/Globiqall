@@ -4,6 +4,7 @@ import { Settings } from "lucide-react";
 import { auth } from "@/auth";
 import { db } from "@/lib/db";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { avatarUrl } from "@/lib/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { PollCard } from "@/components/poll-card";
@@ -116,7 +117,7 @@ export default async function ProfilePage({ params }: PageProps) {
       <header className="hairline-b pb-8 mb-8">
         <div className="flex items-start gap-5">
           <Avatar className="h-20 w-20 border border-border">
-            {user.image && <AvatarImage src={user.image} alt={user.name ?? ""} />}
+            <AvatarImage src={avatarUrl({ image: user.image, seed: user.username ?? user.name })} alt={user.name ?? ""} />
             <AvatarFallback className="text-xl">{initial}</AvatarFallback>
           </Avatar>
           <div className="min-w-0 flex-1">

@@ -13,6 +13,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { avatarUrl } from "@/lib/avatar";
 import { NotificationBell } from "@/components/notification-bell";
 
 export async function Navbar() {
@@ -62,7 +63,7 @@ export async function Navbar() {
               <DropdownMenu>
                 <DropdownMenuTrigger className="rounded-full focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 focus:ring-offset-background ml-1">
                   <Avatar className="h-8 w-8 border border-border">
-                    {user.image && <AvatarImage src={user.image} alt={user.name ?? ""} />}
+                    <AvatarImage src={avatarUrl({ image: user.image, seed: username ?? user.name })} alt={user.name ?? ""} />
                     <AvatarFallback>{initial}</AvatarFallback>
                   </Avatar>
                 </DropdownMenuTrigger>

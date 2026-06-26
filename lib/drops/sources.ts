@@ -192,10 +192,26 @@ function parseFeed(xml: string, sourceLabel: string): RawDrop[] {
       source: sourceLabel,
       sourceUrl: link.trim(),
       publishedAt: pub ? new Date(pub) : undefined,
-      imageUrl: pickImage(block),
+      imageUrl: pickImage(block) ?? sourceLogo(block),
     });
   }
   return out;
+}
+
+/**
+ * Fallback image: the publisher's logo/favicon, derived from the feed's
+ * `<source url="...">` element (Google News ships this on every item). Gives
+ * image-less news items a real source visual with no extra request.
+ */
+function sourceLogo(block: string): string | undefined {
+  const m = /<source[^>]+\burl=["']([^"']+)["']/i.exec(block);
+  if (!m) return undefined;
+  try {
+    const host = new URL(m[1]).hostname.replace(/^www\./, "");
+    return `https://www.google.com/s2/favicons?domain=${host}&sz=128`;
+  } catch {
+    return undefined;
+  }
 }
 
 /**

@@ -9,9 +9,11 @@ import { NextResponse, type NextRequest } from "next/server";
  * - Referrer-Policy: same-origin for outbound link safety.
  * - Permissions-Policy: lock unused browser capabilities by default.
  * - Cross-Origin-Opener-Policy: isolate browsing context.
- * - Content-Security-Policy: tight defaults; allows the OAuth avatar hosts we
- *   already list in next.config.ts. Inline styles allowed for theme tokens and
- *   for next/font runtime. Inline scripts are blocked.
+ * - Content-Security-Policy: tight defaults. Scripts stay locked to 'self'.
+ *   Images allow any https source (generative avatars from DiceBear plus remote
+ *   news thumbnails on Drops, which come from arbitrary domains); img-src can't
+ *   execute code, so this is a safe relaxation. Inline styles allowed for theme
+ *   tokens and next/font runtime. Inline scripts are blocked.
  */
 const SECURITY_HEADERS: Record<string, string> = {
   "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
@@ -52,7 +54,7 @@ const CSP = [
   "default-src 'self'",
   `script-src ${scriptSrc}`,
   "style-src 'self' 'unsafe-inline'",
-  "img-src 'self' data: blob: https://lh3.googleusercontent.com https://avatars.githubusercontent.com https://appleid.cdn-apple.com",
+  "img-src 'self' data: blob: https:",
   "font-src 'self' data: https://fonts.gstatic.com",
   `connect-src ${connectSrc}`,
   "frame-ancestors 'none'",
